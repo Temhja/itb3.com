@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>المنتجات — ITB3</title><link rel="stylesheet" href="../assets/css/style.css"></head>
+<body class="font-arabic">
+<div class="topbar"><div class="container"><div class="topbar-inner"><div class="topbar-right"><div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div></div></div></div></div>
+<nav id="main-nav"><div class="container"><div class="nav-inner">
+  <button id="menu-toggle"><span></span><span></span><span></span></button>
+  <a href="../index.html" class="nav-logo-text">ITB<span>3</span></a>
+  <div class="nav-search"><input type="text" data-i18n-ph="search_ph" id="main-search"><span class="nav-search-btn">🔍</span></div>
+  <div class="nav-actions">
+    <a href="../account/login.html" class="nav-action-btn" id="nav-login"><span class="icon">👤</span><span data-i18n="nav_login"></span></a>
+    <a href="../account/dashboard.html" class="nav-action-btn" id="nav-dashboard" style="display:none"><span class="icon">👤</span><span id="nav-username"></span></a>
+    <button class="nav-action-btn" id="nav-logout" style="display:none" onclick="Auth.logout()"><span class="icon">🚪</span></button>
+    <a href="../cart.html" class="nav-action-btn" style="position:relative"><span class="icon">🛒</span><span data-i18n="nav_cart"></span><span class="cart-count">0</span></a>
+  </div>
+</div></div></nav>
+<div id="mob-overlay"></div>
+<aside id="mob-nav"><div class="mob-nav-head"><span class="nav-logo-text" style="font-size:1.2rem">ITB<span>3</span></span><button id="menu-toggle" style="font-size:1.3rem;color:#666">✕</button></div>
+<nav class="mob-nav-links"><a href="../index.html" class="mob-nav-link" data-i18n="nav_home"></a><a href="index.html" class="mob-nav-link active" data-i18n="nav_products"></a><a href="../cart.html" class="mob-nav-link" data-i18n="nav_cart"></a><a href="../account/login.html" class="mob-nav-link" data-i18n="nav_login"></a></nav>
+<div style="padding:16px"><div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div></div></aside>
+<main>
+<div class="page-title-bar"><div class="container">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><div class="breadcrumb"><a href="../index.html" data-i18n="nav_home"></a><span class="sep">›</span><span data-i18n="nav_products"></span></div><h1 data-i18n="nav_products"></h1></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input type="text" id="search-input" data-i18n-ph="search_ph" class="form-input" style="width:240px">
+      <select id="sort-select" class="form-select" style="width:180px">
+        <option value="">الترتيب الافتراضي</option><option value="price_asc">السعر: من الأقل</option><option value="price_desc">السعر: من الأعلى</option><option value="name">الاسم</option>
+      </select>
+    </div>
+  </div>
+</div></div>
+<div class="container" style="padding-top:20px;padding-bottom:60px">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px" id="filter-tabs"></div>
+  <p id="results-count" style="font-size:0.82rem;color:var(--text-muted);margin-bottom:16px"></p>
+  <div class="products-grid" id="products-grid"><div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)" data-i18n="loading"></div></div>
+</div></main>
+<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:20px"><p>© 2025 ITB3. <span data-i18n="footer_rights"></span></p><p data-i18n="footer_made"></p></div></div></footer>
+<a href="#" class="wa-float" data-wa>💬</a>
+<script src="../assets/js/i18n.js"></script><script src="../assets/js/price-calc.js"></script><script src="../assets/js/cart.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/app.js"></script>
+<script>
+let allP=[],allC=[],curCat='all',curQ='',curSort='';
+async function pageRender(){
+  const lang=i18n.getLang();
+  if(!allP.length){const r=await fetch('../data/products.json');const d=await r.json();allP=d.products;allC=d.categories;}
+  document.getElementById('filter-tabs').innerHTML=
+    `<button class="btn btn-sm ${curCat==='all'?'btn-primary':'btn-outline-gray'}" onclick="setCat('all')">${lang==='ar'?'الكل':'All'}</button>`+
+    allC.map(c=>`<button class="btn btn-sm ${curCat===c.id?'btn-primary':'btn-outline-gray'}" onclick="setCat('${c.id}')">${c.icon} ${c.name[lang]||c.name.ar}</button>`).join('');
+  let prods=allP.filter(p=>{
+    const ok=curCat==='all'||p.categoryId===curCat;
+    const q=curQ.toLowerCase();
+    const nm=(p.name[lang]||p.name.ar||'').toLowerCase();
+    return ok&&(!q||nm.includes(q));
+  });
+  if(curSort==='name')prods.sort((a,b)=>(a.name[lang]||a.name.ar).localeCompare(b.name[lang]||b.name.ar));
+  if(curSort==='price_asc')prods.sort((a,b)=>{const ta=PriceCalc.getTable(a.id),tb=PriceCalc.getTable(b.id);return(ta?Math.min(...Object.values(ta.base)):0)-(tb?Math.min(...Object.values(tb.base)):0);});
+  if(curSort==='price_desc')prods.sort((a,b)=>{const ta=PriceCalc.getTable(a.id),tb=PriceCalc.getTable(b.id);return(tb?Math.max(...Object.values(tb.base)):0)-(ta?Math.max(...Object.values(ta.base)):0);});
+  document.getElementById('results-count').textContent=prods.length+(lang==='ar'?' منتج':' products');
+  const grid=document.getElementById('products-grid');
+  grid.innerHTML=prods.length?prods.map(p=>buildCard(p,'../')).join(''):`<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)">لا توجد نتائج</div>`;
+  i18n.render();
+  document.querySelectorAll('.fade-up').forEach(el=>setTimeout(()=>el.classList.add('in'),50));
+}
+function setCat(c){curCat=c;pageRender();}
+document.addEventListener('DOMContentLoaded',()=>{
+  const p=new URLSearchParams(window.location.search);
+  curCat=p.get('cat')||'all';curQ=p.get('q')||'';
+  const si=document.getElementById('search-input');if(si&&curQ)si.value=curQ;
+  pageRender();
+  si?.addEventListener('input',e=>{curQ=e.target.value;pageRender();});
+  document.getElementById('sort-select').addEventListener('change',e=>{curSort=e.target.value;pageRender();});
+  document.getElementById('main-search').addEventListener('keydown',e=>{if(e.key==='Enter'){const q=e.target.value.trim();if(q)window.location.href='index.html?q='+encodeURIComponent(q);}});
+});
+</script></body></html>

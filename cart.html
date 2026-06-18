@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>السلة — ITB3</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body class="font-arabic">
+<div class="topbar"><div class="container"><div class="topbar-inner"><div class="topbar-right"><div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div></div></div></div></div>
+<nav id="main-nav"><div class="container"><div class="nav-inner">
+  <button id="menu-toggle"><span></span><span></span><span></span></button>
+  <a href="index.html" class="nav-logo-text">ITB<span>3</span></a>
+  <div class="nav-search"><input type="text" data-i18n-ph="search_ph" id="main-search"><span class="nav-search-btn">🔍</span></div>
+  <div class="nav-actions">
+    <a href="account/login.html" class="nav-action-btn" id="nav-login"><span class="icon">👤</span><span data-i18n="nav_login"></span></a>
+    <a href="account/dashboard.html" class="nav-action-btn" id="nav-dashboard" style="display:none"><span class="icon">👤</span><span id="nav-username"></span></a>
+    <button class="nav-action-btn" id="nav-logout" style="display:none" onclick="Auth.logout()"><span class="icon">🚪</span></button>
+    <a href="cart.html" class="nav-action-btn" style="position:relative"><span class="icon">🛒</span><span data-i18n="nav_cart"></span><span class="cart-count">0</span></a>
+  </div>
+</div></div></nav>
+<div id="mob-overlay"></div><aside id="mob-nav"><div class="mob-nav-head"><span class="nav-logo-text" style="font-size:1.2rem">ITB<span>3</span></span><button id="menu-toggle" style="font-size:1.3rem;color:#666">✕</button></div><nav class="mob-nav-links"><a href="index.html" class="mob-nav-link" data-i18n="nav_home"></a><a href="products/index.html" class="mob-nav-link" data-i18n="nav_products"></a><a href="cart.html" class="mob-nav-link" data-i18n="nav_cart"></a></nav></aside>
+<main>
+<div class="page-title-bar"><div class="container"><h1 data-i18n="cart_title"></h1></div></div>
+<div class="container" style="padding-bottom:60px"><div id="cart-root"></div></div>
+</main>
+<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:20px"><p>© 2025 ITB3. <span data-i18n="footer_rights"></span></p></div></div></footer>
+<a href="#" class="wa-float" data-wa>💬</a>
+<script src="assets/js/i18n.js"></script><script src="assets/js/price-calc.js"></script><script src="assets/js/cart.js"></script><script src="assets/js/auth.js"></script><script src="assets/js/app.js"></script>
+<script>
+function renderCart(){
+  const items=Cart.get();const lang=i18n.getLang();const root=document.getElementById('cart-root');
+  if(!items.length){root.innerHTML=`<div class="cart-empty"><div style="font-size:3rem;margin-bottom:16px">🛒</div><h2 data-i18n="cart_empty"></h2><p style="color:var(--text-muted);margin-bottom:20px" data-i18n="cart_empty_sub"></p><a href="products/index.html" class="btn btn-primary btn-lg" data-i18n="shop_now"></a></div>`;i18n.render();return;}
+  const rows=items.map(it=>{
+    const name=it.name[lang]||it.name.ar;
+    const img=it.image||'assets/images/products/placeholder.svg';
+    return `<tr>
+      <td><div style="display:flex;gap:12px;align-items:center"><img class="cart-item-img" src="${img}" onerror="this.src='assets/images/products/placeholder.svg'"><div><div class="cart-item-name">${name}</div><div class="cart-item-spec">${it.specLabel||''}</div></div></div></td>
+      <td><div class="qty-ctrl"><button onclick="Cart.setQty('${it.id}',${it.qty-1});renderCart()">−</button><input type="number" value="${it.qty}" min="1" onchange="Cart.setQty('${it.id}',parseInt(this.value)||1);renderCart()"><button onclick="Cart.setQty('${it.id}',${it.qty+1});renderCart()">+</button></div></td>
+      <td class="price-cell">${i18n.fmt(it.totalPrice)}</td>
+      <td><button class="remove-btn" onclick="Cart.remove('${it.id}');renderCart()">🗑️</button></td>
+    </tr>`;
+  }).join('');
+  const note=localStorage.getItem('itb3_order_note')||'';
+  root.innerHTML=`<div class="cart-layout" style="padding-top:24px">
+    <div>
+      <div class="table-wrap"><table class="cart-table"><thead><tr><th data-i18n="product"></th><th data-i18n="qty"></th><th data-i18n="price"></th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+      <div style="margin-top:16px"><label class="form-label" data-i18n="order_note"></label><textarea class="form-textarea" style="margin-top:6px" rows="3" data-i18n-ph="order_note_ph" onchange="localStorage.setItem('itb3_order_note',this.value)">${note}</textarea></div>
+    </div>
+    <div class="cart-summary-box">
+      <h3 data-i18n="order_summary" style="font-size:1rem;margin-bottom:16px">ملخص الطلب</h3>
+      ${items.map(it=>`<div class="sum-row"><span>${it.name[lang]||it.name.ar}</span><span class="val">${i18n.fmt(it.totalPrice)}</span></div>`).join('')}
+      <div class="sum-row total"><span data-i18n="total"></span><span class="val">${i18n.fmt(Cart.total())}</span></div>
+      <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:8px" data-i18n="calculated"></p>
+      <div class="cart-actions">
+        <a href="checkout.html" class="btn btn-primary btn-full" data-i18n="checkout"></a>
+        <button class="btn btn-whatsapp btn-full" onclick="Cart.openWA('${CONFIG.whatsapp}')" data-i18n="order_wa"></button>
+        <a href="products/index.html" class="btn btn-outline-gray btn-full" data-i18n="continue_shop"></a>
+      </div>
+    </div>
+  </div>`;
+  i18n.render();
+}
+document.addEventListener('DOMContentLoaded',renderCart);
+document.addEventListener('cart:changed',renderCart);
+</script></body></html>

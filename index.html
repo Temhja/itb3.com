@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ITB3 — مطبعة بغداد الاحترافية</title>
+<meta name="description" content="أفضل حلول الطباعة في بغداد">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="font-arabic">
+
+<!-- Topbar -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <span>📞 <span id="tb-phone"></span></span>
+        <span class="topbar-sep"></span>
+        <a href="track-order.html" data-i18n="nav_track"></a>
+      </div>
+      <div class="topbar-right">
+        <div class="lang-pill">
+          <button class="lang-btn active" data-lang="ar">عربي</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="ku">کو</button>
+        </div>
+        <span class="topbar-sep"></span>
+        <a href="contact.html" data-i18n="nav_contact"></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav id="main-nav">
+  <div class="container">
+    <div class="nav-inner">
+      <button id="menu-toggle" aria-label="menu"><span></span><span></span><span></span></button>
+      <a href="index.html" class="nav-logo-text">ITB<span>3</span></a>
+      <div class="nav-search">
+        <input type="text" data-i18n-ph="search_ph" id="main-search">
+        <span class="nav-search-btn">🔍</span>
+      </div>
+      <div class="nav-actions">
+        <a href="account/login.html" class="nav-action-btn auth-btn" id="nav-login">
+          <span class="icon">👤</span><span data-i18n="nav_login"></span>
+        </a>
+        <a href="account/dashboard.html" class="nav-action-btn auth-btn" id="nav-dashboard" style="display:none">
+          <span class="icon">👤</span><span id="nav-username"></span>
+        </a>
+        <button class="nav-action-btn" id="nav-logout" style="display:none" onclick="Auth.logout()">
+          <span class="icon">🚪</span><span data-i18n="nav_logout"></span>
+        </button>
+        <a href="cart.html" class="nav-action-btn" style="position:relative">
+          <span class="icon">🛒</span><span data-i18n="nav_cart"></span>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Category bar -->
+<div class="cat-bar">
+  <div class="container">
+    <div class="cat-bar-inner" id="cat-bar"></div>
+  </div>
+</div>
+
+<!-- Mobile nav -->
+<div id="mob-overlay"></div>
+<aside id="mob-nav">
+  <div class="mob-nav-head">
+    <span class="nav-logo-text" style="font-size:1.2rem">ITB<span>3</span></span>
+    <button id="menu-toggle" style="font-size:1.3rem;color:#666">✕</button>
+  </div>
+  <nav class="mob-nav-links">
+    <a href="index.html" class="mob-nav-link"><span class="ico">🏠</span><span data-i18n="nav_home"></span></a>
+    <a href="products/index.html" class="mob-nav-link"><span class="ico">🏷️</span><span data-i18n="nav_products"></span></a>
+    <a href="about.html" class="mob-nav-link"><span class="ico">ℹ️</span><span data-i18n="nav_about"></span></a>
+    <a href="contact.html" class="mob-nav-link"><span class="ico">📞</span><span data-i18n="nav_contact"></span></a>
+    <a href="track-order.html" class="mob-nav-link"><span class="ico">📦</span><span data-i18n="nav_track"></span></a>
+    <a href="cart.html" class="mob-nav-link"><span class="ico">🛒</span><span data-i18n="nav_cart"></span></a>
+    <a href="account/login.html" class="mob-nav-link"><span class="ico">👤</span><span data-i18n="nav_login"></span></a>
+  </nav>
+  <div style="padding:16px">
+    <div class="lang-pill" style="justify-content:center">
+      <button class="lang-btn active" data-lang="ar">عربي</button>
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="ku">کوردی</button>
+    </div>
+  </div>
+</aside>
+
+<main>
+
+<!-- Hero Slider -->
+<section class="hero-slider">
+  <div class="slides-track">
+    <div class="slide slide-1">
+      <div class="container">
+        <div class="slide-content">
+          <div class="slide-eyebrow">⚡ <span data-i18n="hero_offer"></span></div>
+          <h2>بطاقات العمل<br><span>بأفضل الأسعار</span></h2>
+          <p>1000 بطاقة قياسية بجودة عالية وتسليم خلال 48 ساعة في بغداد</p>
+          <a href="product.html?id=standard-business-card" class="slide-cta" data-i18n="shop_now"></a>
+        </div>
+      </div>
+      <div class="slide-decoration">🪪</div>
+    </div>
+    <div class="slide slide-2">
+      <div class="container">
+        <div class="slide-content">
+          <div class="slide-eyebrow">🎯 <span data-i18n="hero_offer"></span></div>
+          <h2>فلايرات وبروشورات<br><span>جاهزة خلال 24 ساعة</span></h2>
+          <p>طباعة سريعة بألوان زاهية على ورق عالي الجودة بأحجام متعددة</p>
+          <a href="product.html?id=flyer" class="slide-cta" data-i18n="shop_now"></a>
+        </div>
+      </div>
+      <div class="slide-decoration">📄</div>
+    </div>
+    <div class="slide slide-3">
+      <div class="container">
+        <div class="slide-content">
+          <div class="slide-eyebrow">🏆 <span>جودة لا تُضاهى</span></div>
+          <h2>قوائم المطاعم<br><span>بتصميم فاخر</span></h2>
+          <p>قوائم طعام احترافية مصفحة أو UV تعكس احترافية مطعمك</p>
+          <a href="product.html?id=menu" class="slide-cta" data-i18n="shop_now"></a>
+        </div>
+      </div>
+      <div class="slide-decoration">🍽️</div>
+    </div>
+  </div>
+  <button class="slider-arrow slider-prev">‹</button>
+  <button class="slider-arrow slider-next">›</button>
+  <div class="slider-dots">
+    <div class="slider-dot active"></div>
+    <div class="slider-dot"></div>
+    <div class="slider-dot"></div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="sec" style="background:var(--bg-gray);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="sec-header">
+      <h2 class="sec-title"><span data-i18n="cats_title"></span></h2>
+      <a href="products/index.html" class="sec-link" data-i18n="view_all"></a>
+    </div>
+    <div class="cats-grid" id="cats-grid">
+      <div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--text-muted)" data-i18n="loading"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products -->
+<section class="sec">
+  <div class="container">
+    <div class="sec-header">
+      <h2 class="sec-title"><span data-i18n="feat_title"></span> ⭐</h2>
+      <a href="products/index.html" class="sec-link" data-i18n="view_all"></a>
+    </div>
+    <div class="products-grid" id="featured-grid">
+      <div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--text-muted)" data-i18n="loading"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Us -->
+<section class="sec" style="background:var(--secondary)">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:36px">
+      <h2 style="font-size:1.6rem;font-weight:800;color:#fff">لماذا ITB3؟</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px">
+      <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:28px;text-align:center;color:#fff">
+        <div style="font-size:2rem;margin-bottom:12px">🏆</div>
+        <h3 style="font-size:1rem;margin-bottom:8px">جودة لا تُضاهى</h3>
+        <p style="color:rgba(255,255,255,0.65);font-size:0.85rem">أحدث معدات الطباعة وأفضل الخامات</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:28px;text-align:center;color:#fff">
+        <div style="font-size:2rem;margin-bottom:12px">⚡</div>
+        <h3 style="font-size:1rem;margin-bottom:8px">تسليم 24-48 ساعة</h3>
+        <p style="color:rgba(255,255,255,0.65);font-size:0.85rem">في بغداد وجميع المحافظات</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:28px;text-align:center;color:#fff">
+        <div style="font-size:2rem;margin-bottom:12px">💰</div>
+        <h3 style="font-size:1rem;margin-bottom:8px">أفضل الأسعار</h3>
+        <p style="color:rgba(255,255,255,0.65);font-size:0.85rem">أسعار تنافسية بالدينار العراقي</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:28px;text-align:center;color:#fff">
+        <div style="font-size:2rem;margin-bottom:12px">🎧</div>
+        <h3 style="font-size:1rem;margin-bottom:8px">دعم متواصل</h3>
+        <p style="color:rgba(255,255,255,0.65);font-size:0.85rem">فريق متاح على مدار الساعة</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><span style="font-size:1.6rem;font-weight:900;color:#fff">ITB<span style="color:var(--primary)">3</span></span></div>
+        <p style="color:rgba(255,255,255,0.6);font-size:0.85rem;margin:12px 0 20px;line-height:1.8" data-i18n="tagline"></p>
+        <div class="footer-social">
+          <a href="#">📸</a><a href="#">👥</a><a href="#">🎵</a><a href="#">💬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_links"></h4>
+        <ul>
+          <li><a href="index.html" data-i18n="nav_home"></a></li>
+          <li><a href="products/index.html" data-i18n="nav_products"></a></li>
+          <li><a href="about.html" data-i18n="nav_about"></a></li>
+          <li><a href="contact.html" data-i18n="nav_contact"></a></li>
+          <li><a href="track-order.html" data-i18n="nav_track"></a></li>
+          <li><a href="account/login.html" data-i18n="nav_login"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col" id="footer-cats-col">
+        <h4 data-i18n="footer_cats"></h4>
+        <ul id="footer-cats-list"></ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_contact"></h4>
+        <div class="footer-contact-item"><span class="ico">📞</span><a id="f-phone" href="#"></a></div>
+        <div class="footer-contact-item"><span class="ico">💬</span><a id="f-wa" href="#">WhatsApp</a></div>
+        <div class="footer-contact-item"><span class="ico">📧</span><a id="f-email" href="#"></a></div>
+        <div class="footer-contact-item"><span class="ico">📍</span><span data-i18n="location_val"></span></div>
+        <div class="footer-contact-item"><span class="ico">🕐</span><span data-i18n="hours_val"></span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 ITB3. <span data-i18n="footer_rights"></span></p>
+      <p data-i18n="footer_made"></p>
+    </div>
+  </div>
+</footer>
+<a href="#" class="wa-float" data-wa>💬</a>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/price-calc.js"></script>
+<script src="assets/js/cart.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+async function pageRender() {
+  const lang = i18n.getLang();
+  document.getElementById('tb-phone').textContent = CONFIG.phone;
+  const fp = document.getElementById('f-phone'); if(fp){fp.href='tel:'+CONFIG.phone;fp.textContent=CONFIG.phone;}
+  const fw = document.getElementById('f-wa'); if(fw) fw.href='https://wa.me/'+CONFIG.whatsapp;
+  const fe = document.getElementById('f-email'); if(fe){fe.href='mailto:'+CONFIG.email;fe.textContent=CONFIG.email;}
+
+  const res = await fetch('data/products.json');
+  const data = await res.json();
+
+  // Category bar
+  const cb = document.getElementById('cat-bar');
+  if(cb) cb.innerHTML = data.categories.map(c =>
+    `<a href="products/index.html?cat=${c.id}" class="cat-bar-item">
+      <span class="cat-icon">${c.icon}</span>${c.name[lang]||c.name.ar}
+    </a>`).join('');
+
+  // Categories grid
+  const cg = document.getElementById('cats-grid');
+  if(cg) cg.innerHTML = data.categories.map(c => buildCatCard(c)).join('');
+
+  // Footer cats
+  const fl = document.getElementById('footer-cats-list');
+  if(fl) fl.innerHTML = data.categories.map(c => `<li><a href="products/index.html?cat=${c.id}">${c.name[lang]||c.name.ar}</a></li>`).join('');
+
+  // Featured products
+  const fg = document.getElementById('featured-grid');
+  if(fg) {
+    const feat = data.products.filter(p => p.featured);
+    fg.innerHTML = feat.map(p => buildCard(p)).join('');
+    i18n.render();
+  }
+  document.querySelectorAll('.fade-up').forEach(el => setTimeout(()=>el.classList.add('in'),50));
+}
+document.addEventListener('DOMContentLoaded', pageRender);
+// Search
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('main-search').addEventListener('keydown', e => {
+    if(e.key==='Enter') {
+      const q = e.target.value.trim();
+      if(q) window.location.href = 'products/index.html?q='+encodeURIComponent(q);
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>حسابي — ITB3</title><link rel="stylesheet" href="../assets/css/style.css"></head>
+<body class="font-arabic">
+<div class="topbar"><div class="container"><div class="topbar-inner"><div class="topbar-right"><div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div></div></div></div></div>
+<nav id="main-nav"><div class="container"><div class="nav-inner">
+  <a href="../index.html" class="nav-logo-text">ITB<span>3</span></a>
+  <div class="nav-actions">
+    <a href="../account/dashboard.html" class="nav-action-btn" id="nav-dashboard"><span class="icon">👤</span><span id="nav-username"></span></a>
+    <button class="nav-action-btn" id="nav-logout" onclick="Auth.logout()"><span class="icon">🚪</span><span data-i18n="nav_logout"></span></button>
+    <a href="../cart.html" class="nav-action-btn" style="position:relative"><span class="icon">🛒</span><span class="cart-count">0</span></a>
+  </div>
+</div></div></nav>
+<main>
+<div class="page-title-bar"><div class="container"><h1 data-i18n="dashboard_title"></h1></div></div>
+<div class="container"><div class="account-layout">
+  <aside class="account-sidebar">
+    <div class="account-user">
+      <div class="account-avatar" id="av">👤</div>
+      <div class="account-name" id="acc-name"></div>
+      <div class="account-email" id="acc-email"></div>
+    </div>
+    <nav class="account-nav">
+      <a href="#" class="account-nav-link active" onclick="showTab('orders')">📦 <span data-i18n="my_orders"></span></a>
+      <a href="#" class="account-nav-link" onclick="showTab('profile')">👤 <span data-i18n="my_profile"></span></a>
+      <a href="../products/index.html" class="account-nav-link">🛍️ <span data-i18n="nav_products"></span></a>
+      <a href="../track-order.html" class="account-nav-link">📍 <span data-i18n="nav_track"></span></a>
+      <a href="#" class="account-nav-link" style="color:var(--primary)" onclick="Auth.logout()">🚪 <span data-i18n="nav_logout"></span></a>
+    </nav>
+  </aside>
+  <div>
+    <div id="tab-orders">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><h2 style="font-size:1.1rem" data-i18n="my_orders"></h2></div>
+      <div class="table-wrap"><table class="data-table"><thead><tr><th data-i18n="order_id"></th><th data-i18n="order_date"></th><th data-i18n="order_total"></th><th data-i18n="order_status"></th></tr></thead><tbody id="orders-tbody"></tbody></table></div>
+    </div>
+    <div id="tab-profile" style="display:none">
+      <h2 style="font-size:1.1rem;margin-bottom:20px" data-i18n="my_profile"></h2>
+      <div style="background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:32px;max-width:500px">
+        <div class="form-group"><label class="form-label" data-i18n="full_name"></label><input class="form-input" id="p-name"></div>
+        <div class="form-group"><label class="form-label" data-i18n="email"></label><input class="form-input" id="p-email" type="email"></div>
+        <div class="form-group"><label class="form-label" data-i18n="phone"></label><input class="form-input" id="p-phone" type="tel"></div>
+        <button class="btn btn-primary" style="margin-top:8px" onclick="saveProfile()" data-i18n="save"></button>
+        <div id="p-msg" style="display:none;margin-top:10px;color:var(--green);font-weight:600">✓ تم الحفظ</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+</main>
+<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:20px"><p>© 2025 ITB3. <span data-i18n="footer_rights"></span></p></div></div></footer>
+<script src="../assets/js/i18n.js"></script><script src="../assets/js/price-calc.js"></script><script src="../assets/js/cart.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/app.js"></script>
+<script>
+Auth.requireAuth();
+function showTab(t){document.getElementById('tab-orders').style.display=t==='orders'?'block':'none';document.getElementById('tab-profile').style.display=t==='profile'?'block':'none';document.querySelectorAll('.account-nav-link').forEach(l=>l.classList.remove('active'));event?.target?.closest('.account-nav-link')?.classList.add('active');}
+document.addEventListener('DOMContentLoaded',()=>{
+  const u=Auth.current();if(!u)return;
+  document.getElementById('acc-name').textContent=u.name;
+  document.getElementById('acc-email').textContent=u.email;
+  document.getElementById('av').textContent=u.name[0]||'👤';
+  document.getElementById('p-name').value=u.name;
+  document.getElementById('p-email').value=u.email;
+  document.getElementById('p-phone').value=u.phone||'';
+  const orders=Auth.getOrders();
+  const stMap={pending:'badge-yellow',printing:'badge-yellow',finishing:'badge-yellow',ready:'badge-green',delivered:'badge-green'};
+  const stLabel={pending:'قيد الانتظار',printing:'طباعة',finishing:'تشطيب',ready:'جاهز',delivered:'تم التسليم'};
+  document.getElementById('orders-tbody').innerHTML=orders.length?orders.map(o=>`<tr><td><strong style="color:var(--primary)">${o.id}</strong></td><td>${o.date||'—'}</td><td style="font-weight:700;color:var(--primary)">${i18n.fmt(o.total||0)}</td><td><span class="badge ${stMap[o.status]||'badge-yellow'}">${stLabel[o.status]||o.status}</span></td></tr>`).join(''):`<tr><td colspan="4" style="text-align:center;padding:32px;color:var(--text-muted)">لا توجد طلبات بعد</td></tr>`;
+});
+function saveProfile(){document.getElementById('p-msg').style.display='block';setTimeout(()=>document.getElementById('p-msg').style.display='none',2000);}
+</script></body></html>

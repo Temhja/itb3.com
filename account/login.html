@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تسجيل الدخول — ITB3</title><link rel="stylesheet" href="../assets/css/style.css"></head>
+<body class="font-arabic" style="background:var(--bg-gray)">
+<div class="topbar"><div class="container"><div class="topbar-inner"><div class="topbar-right"><div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div></div></div></div></div>
+<nav id="main-nav"><div class="container"><div class="nav-inner"><a href="../index.html" class="nav-logo-text">ITB<span>3</span></a><div class="nav-actions"><a href="../cart.html" class="nav-action-btn" style="position:relative"><span class="icon">🛒</span><span class="cart-count">0</span></a></div></div></div></nav>
+<main>
+<div class="auth-wrap">
+  <div class="auth-logo"><a href="../index.html" class="nav-logo-text" style="font-size:2rem">ITB<span>3</span></a><p style="color:var(--text-muted);font-size:0.85rem;margin-top:6px" data-i18n="tagline"></p></div>
+  <h2 class="auth-title" data-i18n="login_title"></h2>
+  <form id="login-form">
+    <div class="form-group"><label class="form-label" data-i18n="email"></label><input class="form-input" type="email" id="l-email" required data-i18n-ph="email"></div>
+    <div class="form-group"><label class="form-label" data-i18n="password"></label><input class="form-input" type="password" id="l-pass" required data-i18n-ph="password"></div>
+    <div style="text-align:end;margin-bottom:16px"><a href="#" style="font-size:0.82rem;color:var(--primary)" data-i18n="forgot_pass"></a></div>
+    <button type="submit" class="btn btn-primary btn-full btn-lg" data-i18n="login_btn"></button>
+  </form>
+  <div id="login-err" style="display:none;margin-top:12px;padding:10px;background:var(--primary-light);color:var(--primary);border-radius:8px;font-size:0.85rem;text-align:center"></div>
+  <div class="auth-divider">أو</div>
+  <p class="auth-link"><span data-i18n="no_account"></span> <a href="register.html" data-i18n="sign_up"></a></p>
+  <p class="auth-link" style="margin-top:8px"><a href="../index.html" style="color:var(--text-muted)">← <span data-i18n="nav_home"></span></a></p>
+</div>
+</main>
+<script src="../assets/js/i18n.js"></script><script src="../assets/js/price-calc.js"></script><script src="../assets/js/cart.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/app.js"></script>
+<script>
+if(Auth.isLoggedIn())window.location.href='dashboard.html';
+document.getElementById('login-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const email=document.getElementById('l-email').value.trim();
+  const pass=document.getElementById('l-pass').value;
+  const r=Auth.login(email,pass);
+  if(r.ok){const red=new URLSearchParams(window.location.search).get('redirect');window.location.href=red||'dashboard.html';}
+  else{const err=document.getElementById('login-err');err.style.display='block';err.textContent='البريد الإلكتروني أو كلمة المرور غير صحيحة';}
+});
+</script></body></html>

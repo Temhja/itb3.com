@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>إتمام الطلب — ITB3</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body class="font-arabic">
+<div class="topbar"><div class="container"><div class="topbar-inner"><div class="topbar-right"><div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div></div></div></div></div>
+<nav id="main-nav"><div class="container"><div class="nav-inner">
+  <a href="index.html" class="nav-logo-text">ITB<span>3</span></a>
+  <div class="nav-actions"><a href="cart.html" class="nav-action-btn" style="position:relative"><span class="icon">🛒</span><span data-i18n="nav_cart"></span><span class="cart-count">0</span></a></div>
+</div></div></nav>
+<main>
+<div class="page-title-bar"><div class="container"><div class="breadcrumb"><a href="index.html" data-i18n="nav_home"></a><span class="sep">›</span><a href="cart.html" data-i18n="nav_cart"></a><span class="sep">›</span><span data-i18n="checkout_title"></span></div><h1 data-i18n="checkout_title"></h1></div></div>
+<div class="container" style="padding-bottom:60px">
+  <div style="display:grid;grid-template-columns:1fr 360px;gap:24px;padding-top:24px" id="co-layout">
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:32px">
+      <form id="co-form">
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label"><span data-i18n="name"></span> <span style="color:var(--primary)">*</span></label><input class="form-input" name="name" required data-i18n-ph="name"></div>
+          <div class="form-group"><label class="form-label"><span data-i18n="phone"></span> <span style="color:var(--primary)">*</span></label><input class="form-input" name="phone" type="tel" required data-i18n-ph="phone"></div>
+          <div class="form-group"><label class="form-label" data-i18n="city"></label>
+            <select class="form-select" name="city"><option value="">—</option><option>بغداد</option><option>البصرة</option><option>نينوى</option><option>أربيل</option><option>السليمانية</option><option>دهوك</option><option>كركوك</option><option>النجف</option><option>كربلاء</option><option>الأنبار</option><option>ديالى</option><option>صلاح الدين</option><option>واسط</option><option>ميسان</option><option>ذي قار</option><option>المثنى</option><option>القادسية</option><option>بابل</option></select>
+          </div>
+          <div class="form-group"><label class="form-label" data-i18n="address"></label><input class="form-input" name="address" data-i18n-ph="address"></div>
+          <div class="form-group full"><label class="form-label" data-i18n="notes"></label><textarea class="form-textarea" name="notes" rows="3"></textarea></div>
+          <div class="form-group full">
+            <label class="form-label" data-i18n="file_upload"></label>
+            <label class="file-drop">
+              <input type="file" name="design" accept=".pdf,.ai,.psd,.jpg,.jpeg,.png,.zip" id="file-in">
+              <div class="file-drop-icon">📎</div>
+              <div class="file-drop-text" data-i18n="file_upload"></div>
+              <div class="file-drop-text" style="font-size:0.75rem;margin-top:4px" data-i18n="file_hint"></div>
+              <div class="file-name-display" id="fname"></div>
+            </label>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+          <button type="submit" class="btn btn-primary btn-lg" data-i18n="submit_order"></button>
+          <button type="button" class="btn btn-whatsapp btn-lg" onclick="coWA()" data-i18n="order_wa"></button>
+        </div>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:10px" data-i18n="or_wa"></p>
+      </form>
+      <div id="co-msg" style="display:none;margin-top:16px;padding:14px;border-radius:10px;font-weight:600"></div>
+    </div>
+    <div>
+      <div class="cart-summary-box" style="position:sticky;top:calc(var(--nav-h)+8px)">
+        <h3 style="margin-bottom:16px;font-size:1rem">ملخص الطلب</h3>
+        <div id="co-summary"></div>
+        <div class="sum-row total"><span data-i18n="total"></span><span class="val" id="co-total"></span></div>
+        <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:8px" data-i18n="calculated"></p>
+      </div>
+    </div>
+  </div>
+</div></main>
+<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:20px"><p>© 2025 ITB3. <span data-i18n="footer_rights"></span></p></div></div></footer>
+<script src="assets/js/i18n.js"></script><script src="assets/js/price-calc.js"></script><script src="assets/js/cart.js"></script><script src="assets/js/auth.js"></script><script src="assets/js/app.js"></script>
+<script>
+function renderSummary(){
+  const items=Cart.get();const lang=i18n.getLang();
+  const s=document.getElementById('co-summary');const t=document.getElementById('co-total');
+  if(s)s.innerHTML=items.map(it=>`<div class="sum-row"><span>${it.name[lang]||it.name.ar} ×1</span><span class="val">${i18n.fmt(it.totalPrice)}</span></div>`).join('');
+  if(t)t.textContent=i18n.fmt(Cart.total());
+}
+document.getElementById('file-in').addEventListener('change',e=>{const f=e.target.files[0];document.getElementById('fname').textContent=f?f.name:'';});
+document.getElementById('co-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  fd.append('cart',JSON.stringify(Cart.get()));fd.append('total',Cart.total());fd.append('note',localStorage.getItem('itb3_order_note')||'');
+  const btn=e.target.querySelector('[type=submit]');btn.disabled=true;
+  try{
+    const r=await fetch('api/order.php',{method:'POST',body:fd});const d=await r.json();
+    const msg=document.getElementById('co-msg');msg.style.display='block';
+    if(d.success){msg.style.background='rgba(22,163,74,0.1)';msg.style.color='#16a34a';msg.textContent=i18n.t('order_success')+' ('+d.order_id+')';Cart.clear();renderSummary();
+      if(Auth.isLoggedIn())Auth.saveOrder({id:d.order_id,total:Cart.total(),status:'pending',date:new Date().toLocaleDateString()});
+    }else{msg.style.background='rgba(214,40,40,0.1)';msg.style.color='var(--primary)';msg.textContent=i18n.t('order_error');}
+  }catch{const msg=document.getElementById('co-msg');msg.style.display='block';msg.style.color='var(--primary)';msg.textContent=i18n.t('order_error');}
+  btn.disabled=false;
+});
+function coWA(){Cart.openWA(CONFIG.whatsapp);}
+document.addEventListener('DOMContentLoaded',renderSummary);
+</script></body></html>

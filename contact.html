@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تواصل معنا — ITB3</title><link rel="stylesheet" href="assets/css/style.css"></head>
+<body class="font-arabic">
+<div class="topbar"><div class="container"><div class="topbar-inner"><div class="topbar-right"><div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div></div></div></div></div>
+<nav id="main-nav"><div class="container"><div class="nav-inner">
+  <button id="menu-toggle"><span></span><span></span><span></span></button>
+  <a href="index.html" class="nav-logo-text">ITB<span>3</span></a>
+  <div class="nav-actions"><a href="account/login.html" class="nav-action-btn" id="nav-login"><span class="icon">👤</span><span data-i18n="nav_login"></span></a><a href="account/dashboard.html" class="nav-action-btn" id="nav-dashboard" style="display:none"><span class="icon">👤</span><span id="nav-username"></span></a><button class="nav-action-btn" id="nav-logout" style="display:none" onclick="Auth.logout()"><span class="icon">🚪</span></button><a href="cart.html" class="nav-action-btn" style="position:relative"><span class="icon">🛒</span><span class="cart-count">0</span></a></div>
+</div></div></nav>
+<div id="mob-overlay"></div><aside id="mob-nav"><div class="mob-nav-head"><span class="nav-logo-text" style="font-size:1.2rem">ITB<span>3</span></span><button id="menu-toggle" style="font-size:1.3rem;color:#666">✕</button></div><nav class="mob-nav-links"><a href="index.html" class="mob-nav-link" data-i18n="nav_home"></a><a href="products/index.html" class="mob-nav-link" data-i18n="nav_products"></a><a href="contact.html" class="mob-nav-link active" data-i18n="nav_contact"></a></nav></aside>
+<main>
+<div class="page-title-bar"><div class="container"><h1 data-i18n="contact_title"></h1><p style="color:var(--text-muted);margin-top:4px">نحن هنا للمساعدة</p></div></div>
+<div class="container" style="padding:32px 0 64px">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px" id="ct-layout">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="background:var(--bg-gray);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;gap:14px"><div style="font-size:1.4rem;width:44px;height:44px;background:var(--primary-light);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">💬</div><div><div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px" data-i18n="whatsapp"></div><a id="ct-wa" href="#" style="font-weight:700;font-size:1rem"></a></div></div>
+      <div style="background:var(--bg-gray);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;gap:14px"><div style="font-size:1.4rem;width:44px;height:44px;background:var(--primary-light);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">📞</div><div><div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px" data-i18n="call"></div><a id="ct-ph" href="#" style="font-weight:700;font-size:1rem"></a></div></div>
+      <div style="background:var(--bg-gray);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;gap:14px"><div style="font-size:1.4rem;width:44px;height:44px;background:var(--primary-light);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">📧</div><div><div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px">Email</div><a id="ct-em" href="#" style="font-weight:700;font-size:1rem"></a></div></div>
+      <div style="background:var(--bg-gray);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;gap:14px"><div style="font-size:1.4rem;width:44px;height:44px;background:var(--primary-light);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">📍</div><div><div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px" data-i18n="location"></div><p style="font-weight:700" data-i18n="location_val"></p></div></div>
+      <div style="background:var(--bg-gray);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;gap:14px"><div style="font-size:1.4rem;width:44px;height:44px;background:var(--primary-light);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">🕐</div><div><div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px" data-i18n="hours"></div><p style="font-weight:700" data-i18n="hours_val"></p></div></div>
+    </div>
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:32px">
+      <h2 style="font-size:1.1rem;margin-bottom:24px" data-i18n="send_msg"></h2>
+      <form id="ct-form">
+        <div class="form-group"><label class="form-label" data-i18n="name"></label><input class="form-input" name="name" required data-i18n-ph="name"></div>
+        <div class="form-group"><label class="form-label" data-i18n="phone"></label><input class="form-input" name="phone" type="tel" data-i18n-ph="phone"></div>
+        <div class="form-group"><label class="form-label" data-i18n="message"></label><textarea class="form-textarea" name="message" required rows="4" data-i18n-ph="message"></textarea></div>
+        <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px" data-i18n="send"></button>
+      </form>
+      <div id="ct-msg" style="display:none;margin-top:12px;padding:12px;border-radius:8px;font-weight:600"></div>
+    </div>
+  </div>
+</div></main>
+<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:20px"><p>© 2025 ITB3. <span data-i18n="footer_rights"></span></p><p data-i18n="footer_made"></p></div></div></footer>
+<a href="#" class="wa-float" data-wa>💬</a>
+<script src="assets/js/i18n.js"></script><script src="assets/js/price-calc.js"></script><script src="assets/js/cart.js"></script><script src="assets/js/auth.js"></script><script src="assets/js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('ct-wa').href='https://wa.me/'+CONFIG.whatsapp;document.getElementById('ct-wa').textContent='+'+CONFIG.whatsapp;
+  document.getElementById('ct-ph').href='tel:'+CONFIG.phone;document.getElementById('ct-ph').textContent=CONFIG.phone;
+  document.getElementById('ct-em').href='mailto:'+CONFIG.email;document.getElementById('ct-em').textContent=CONFIG.email;
+  if(window.innerWidth<768){document.getElementById('ct-layout').style.gridTemplateColumns='1fr';}
+});
+document.getElementById('ct-form').addEventListener('submit',async e=>{
+  e.preventDefault();const fd=new FormData(e.target);const btn=e.target.querySelector('button');btn.disabled=true;
+  try{const r=await fetch('api/contact.php',{method:'POST',body:fd});const d=await r.json();
+  const msg=document.getElementById('ct-msg');msg.style.display='block';
+  msg.style.background=d.success?'rgba(22,163,74,0.1)':'rgba(214,40,40,0.1)';msg.style.color=d.success?'#16a34a':'var(--primary)';
+  msg.textContent=d.success?i18n.t('sent_success')||'تم الإرسال!':i18n.t('error');if(d.success)e.target.reset();}
+  catch{const msg=document.getElementById('ct-msg');msg.style.display='block';msg.style.color='var(--primary)';msg.textContent=i18n.t('error');}
+  btn.disabled=false;
+});
+</script></body></html>

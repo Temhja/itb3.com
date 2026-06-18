@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ITB3 — المنتج</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="font-arabic">
+<div class="topbar"><div class="container"><div class="topbar-inner">
+  <div class="topbar-left"><span>📞 <span id="tb-phone"></span></span></div>
+  <div class="topbar-right">
+    <div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div>
+    <span class="topbar-sep"></span><a href="contact.html" data-i18n="nav_contact"></a>
+  </div>
+</div></div></div>
+<nav id="main-nav"><div class="container"><div class="nav-inner">
+  <button id="menu-toggle"><span></span><span></span><span></span></button>
+  <a href="index.html" class="nav-logo-text">ITB<span>3</span></a>
+  <div class="nav-search"><input type="text" data-i18n-ph="search_ph" id="main-search"><span class="nav-search-btn">🔍</span></div>
+  <div class="nav-actions">
+    <a href="account/login.html" class="nav-action-btn" id="nav-login"><span class="icon">👤</span><span data-i18n="nav_login"></span></a>
+    <a href="account/dashboard.html" class="nav-action-btn" id="nav-dashboard" style="display:none"><span class="icon">👤</span><span id="nav-username"></span></a>
+    <button class="nav-action-btn" id="nav-logout" style="display:none" onclick="Auth.logout()"><span class="icon">🚪</span><span data-i18n="nav_logout"></span></button>
+    <a href="cart.html" class="nav-action-btn" style="position:relative"><span class="icon">🛒</span><span data-i18n="nav_cart"></span><span class="cart-count">0</span></a>
+  </div>
+</div></div></nav>
+<div id="mob-overlay"></div>
+<aside id="mob-nav">
+  <div class="mob-nav-head"><span class="nav-logo-text" style="font-size:1.2rem">ITB<span>3</span></span><button id="menu-toggle" style="font-size:1.3rem;color:#666">✕</button></div>
+  <nav class="mob-nav-links">
+    <a href="index.html" class="mob-nav-link" data-i18n="nav_home"></a>
+    <a href="products/index.html" class="mob-nav-link" data-i18n="nav_products"></a>
+    <a href="cart.html" class="mob-nav-link" data-i18n="nav_cart"></a>
+    <a href="account/login.html" class="mob-nav-link" data-i18n="nav_login"></a>
+  </nav>
+  <div style="padding:16px"><div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div></div>
+</aside>
+
+<main>
+<div class="container">
+  <div class="breadcrumb" id="breadcrumb"></div>
+  <div class="product-layout" id="product-layout">
+    <div style="text-align:center;padding:80px;color:var(--text-muted);grid-column:1/-1" data-i18n="loading"></div>
+  </div>
+</div>
+</main>
+
+<footer class="footer" style="margin-top:0">
+  <div class="container"><div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:20px">
+    <p>© 2025 ITB3. <span data-i18n="footer_rights"></span></p><p data-i18n="footer_made"></p>
+  </div></div>
+</footer>
+<a href="#" class="wa-float" data-wa>💬</a>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/price-calc.js"></script>
+<script src="assets/js/cart.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+let state = { productId:'', size:'', orientation:'', qty:0, paper:'', coating:'', sides:'', product:null };
+
+async function pageRender() {
+  const lang = i18n.getLang();
+  document.getElementById('tb-phone').textContent = CONFIG.phone;
+  const id = getParam('id');
+  if (!id) return;
+  const res = await fetch('data/products.json');
+  const data = await res.json();
+  const p = data.products.find(x => x.id === id);
+  if (!p) { document.getElementById('product-layout').innerHTML = '<p style="padding:60px;text-align:center">Product not found</p>'; return; }
+  state.product = p; state.productId = p.id;
+  document.title = (p.name[lang]||p.name.ar) + ' — ITB3';
+
+  // Breadcrumb
+  const cat = data.categories.find(c => c.id === p.categoryId);
+  document.getElementById('breadcrumb').innerHTML =
+    `<a href="index.html" data-i18n="nav_home"></a><span class="sep">›</span>
+     <a href="products/index.html?cat=${p.categoryId}">${cat?(cat.name[lang]||cat.name.ar):''}</a><span class="sep">›</span>
+     <span>${p.name[lang]||p.name.ar}</span>`;
+
+  const tbl = PriceCalc.getTable(id);
+  if (!tbl) { document.getElementById('product-layout').innerHTML = '<p style="padding:60px;text-align:center">No pricing table found</p>'; return; }
+
+  const sizes = Object.keys(tbl.sizes);
+  const qtys = Object.keys(tbl.base).map(Number).sort((a,b)=>a-b);
+  const papers = Object.keys(tbl.paper);
+  const coatings = Object.keys(tbl.coating);
+  const sidesList = Object.keys(tbl.sides);
+  const orientations = tbl.orientations || ['عمودي','أفقي'];
+
+  // Set defaults
+  state.size = sizes[0]; state.qty = qtys[0];
+  state.paper = papers[0]; state.coating = coatings[0]; state.sides = sidesList[0];
+  state.orientation = orientations[0];
+
+  const img = p.image || 'assets/images/products/placeholder.svg';
+  const name = p.name[lang]||p.name.ar;
+  const desc = p.description[lang]||p.description.ar;
+
+  document.getElementById('product-layout').innerHTML = `
+    <!-- Gallery -->
+    <div class="product-gallery">
+      <div class="product-gallery__main">
+        <img src="${img}" alt="${name}" onerror="this.src='assets/images/products/placeholder.svg'" id="main-img">
+      </div>
+    </div>
+
+    <!-- Calculator -->
+    <div class="calc-panel">
+      <h1 class="product-title">${name}</h1>
+      <p style="color:var(--text-mid);font-size:0.9rem;margin-bottom:24px;line-height:1.8">${desc}</p>
+
+      <!-- Size -->
+      ${sizes.length > 1 ? `
+      <div class="option-group">
+        <div class="option-group-header">
+          <span class="option-group-label"><span class="step-num">1</span><span data-i18n="opt_size"></span></span>
+          <span class="option-group-val" id="val-size">${state.size}</span>
+        </div>
+        <div class="option-group-body">
+          <div class="option-pills">
+            ${sizes.map(s => `<div class="option-pill${s===state.size?' selected':''}" onclick="selectOpt('size','${s}')" data-val="${s}">${s}</div>`).join('')}
+          </div>
+        </div>
+      </div>` : `<input type="hidden" id="hidden-size" value="${sizes[0]}">`}
+
+      <!-- Orientation -->
+      ${orientations.length > 1 && orientations[0] !== '—' ? `
+      <div class="option-group">
+        <div class="option-group-header">
+          <span class="option-group-label"><span class="step-num">${sizes.length>1?'2':'1'}</span><span data-i18n="opt_orientation"></span></span>
+          <span class="option-group-val" id="val-orientation">${state.orientation}</span>
+        </div>
+        <div class="option-group-body">
+          <div class="option-pills">
+            ${orientations.map(o => `<div class="option-pill${o===state.orientation?' selected':''}" onclick="selectOpt('orientation','${o}')" data-val="${o}">${o}</div>`).join('')}
+          </div>
+        </div>
+      </div>` : ''}
+
+      <!-- Quantity -->
+      <div class="option-group">
+        <div class="option-group-header">
+          <span class="option-group-label"><span class="step-num">⚡</span><span data-i18n="opt_qty"></span></span>
+          <span class="option-group-val" id="val-qty">${state.qty}</span>
+        </div>
+        <div class="option-group-body">
+          <div class="qty-table">
+            ${qtys.map(q => {
+              const preview = PriceCalc.calculate(id, state.size, q, state.paper, state.coating, state.sides);
+              return `<div class="qty-option${q===state.qty?' selected':''}" onclick="selectOpt('qty',${q})" data-val="${q}">
+                <div class="qty-option__num">${q.toLocaleString()}</div>
+                <div class="qty-option__price">${i18n.fmt(preview.total)}</div>
+                <div class="qty-option__unit">${i18n.fmt(preview.perUnit)} / <span data-i18n="per_unit"></span></div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- Paper -->
+      ${papers.length > 1 ? `
+      <div class="option-group">
+        <div class="option-group-header">
+          <span class="option-group-label"><span class="step-num">📄</span><span data-i18n="opt_paper"></span></span>
+          <span class="option-group-val" id="val-paper">${state.paper}</span>
+        </div>
+        <div class="option-group-body">
+          <div class="option-pills">
+            ${papers.map(pp => `<div class="option-pill${pp===state.paper?' selected':''}" onclick="selectOpt('paper','${pp}')" data-val="${pp}">${pp}${tbl.paper[pp]>0?' (+'+i18n.fmt(tbl.paper[pp])+')':''}</div>`).join('')}
+          </div>
+        </div>
+      </div>` : ''}
+
+      <!-- Coating -->
+      ${coatings.length > 1 ? `
+      <div class="option-group">
+        <div class="option-group-header">
+          <span class="option-group-label"><span class="step-num">✨</span><span data-i18n="opt_coating"></span></span>
+          <span class="option-group-val" id="val-coating">${state.coating}</span>
+        </div>
+        <div class="option-group-body">
+          <div class="option-pills">
+            ${coatings.map(c => `<div class="option-pill${c===state.coating?' selected':''}" onclick="selectOpt('coating','${c}')" data-val="${c}">${c}${tbl.coating[c]>0?' (+'+i18n.fmt(tbl.coating[c])+')':''}</div>`).join('')}
+          </div>
+        </div>
+      </div>` : ''}
+
+      <!-- Sides -->
+      ${sidesList.length > 1 ? `
+      <div class="option-group">
+        <div class="option-group-header">
+          <span class="option-group-label"><span class="step-num">🖨️</span><span data-i18n="opt_sides"></span></span>
+          <span class="option-group-val" id="val-sides">${state.sides}</span>
+        </div>
+        <div class="option-group-body">
+          <div class="option-pills">
+            ${sidesList.map(s => `<div class="option-pill${s===state.sides?' selected':''}" onclick="selectOpt('sides','${s}')" data-val="${s}">${s}${tbl.sides[s]>0?' (+'+i18n.fmt(tbl.sides[s])+')':''}</div>`).join('')}
+          </div>
+        </div>
+      </div>` : ''}
+
+      <!-- Price Box -->
+      <div class="price-box" id="price-box">
+        <div class="price-box__title" data-i18n="total_price"></div>
+        <div class="price-box__total" id="price-total">${i18n.fmt(0)}</div>
+        <div class="price-box__unit" id="price-unit"></div>
+        <div class="price-box__breakdown" id="price-breakdown"></div>
+        <div class="price-box__actions">
+          <button class="btn-add-cart" onclick="addToCart()">🛒 <span data-i18n="add_cart"></span></button>
+          <button class="btn-wa" onclick="orderWA()">💬 <span data-i18n="order_wa"></span></button>
+        </div>
+        <p class="delivery-note">⚡ تسليم 24-48 ساعة في بغداد | توصيل لجميع المحافظات</p>
+      </div>
+    </div>
+  `;
+  i18n.render();
+  updatePrice();
+}
+
+function selectOpt(key, val) {
+  state[key] = typeof val === 'string' ? val : Number(val);
+  // update UI
+  document.querySelectorAll(`.option-pill[data-val]`).forEach(el => {
+    // re-select within same group by finding which group
+  });
+  // Simpler: re-render qty table prices + highlight selected
+  document.querySelectorAll(`.option-pill`).forEach(el => {
+    const pKey = el.closest('.option-group')?.querySelector('.option-group-val');
+    if (!pKey) return;
+  });
+  // update selected state visually
+  const allGroups = document.querySelectorAll('.option-group');
+  allGroups.forEach(group => {
+    const pills = group.querySelectorAll('.option-pill');
+    const qOpts = group.querySelectorAll('.qty-option');
+    pills.forEach(pill => pill.classList.toggle('selected', pill.dataset.val == state[key] && pills[0]?.dataset && group.querySelector(`[data-val="${val}"]`) === pill));
+    qOpts.forEach(opt => opt.classList.toggle('selected', opt.dataset.val == state[key]));
+  });
+  // Simpler full re-highlight approach:
+  document.querySelectorAll('.option-pill').forEach(pill => {
+    const grpHeader = pill.closest('.option-group')?.querySelector('.option-group-val');
+    if (!grpHeader) return;
+    const grpId = grpHeader.id;
+    const map = {'val-size':'size','val-orientation':'orientation','val-paper':'paper','val-coating':'coating','val-sides':'sides'};
+    const k = map[grpId];
+    if (k) {
+      pill.classList.toggle('selected', pill.dataset.val == state[k]);
+    }
+  });
+  document.querySelectorAll('.qty-option').forEach(opt => {
+    opt.classList.toggle('selected', Number(opt.dataset.val) === state.qty);
+  });
+  // Update display values
+  if (document.getElementById('val-size')) document.getElementById('val-size').textContent = state.size;
+  if (document.getElementById('val-orientation')) document.getElementById('val-orientation').textContent = state.orientation;
+  if (document.getElementById('val-qty')) document.getElementById('val-qty').textContent = state.qty;
+  if (document.getElementById('val-paper')) document.getElementById('val-paper').textContent = state.paper;
+  if (document.getElementById('val-coating')) document.getElementById('val-coating').textContent = state.coating;
+  if (document.getElementById('val-sides')) document.getElementById('val-sides').textContent = state.sides;
+
+  updatePrice();
+}
+
+function updatePrice() {
+  const r = PriceCalc.calculate(state.productId, state.size, state.qty, state.paper, state.coating, state.sides);
+  const lang = i18n.getLang();
+  const totalEl = document.getElementById('price-total');
+  const unitEl = document.getElementById('price-unit');
+  const bdEl = document.getElementById('price-breakdown');
+  if (totalEl) totalEl.textContent = i18n.fmt(r.total);
+  if (unitEl) unitEl.textContent = `${i18n.fmt(r.perUnit)} / ${i18n.t('per_unit')} × ${state.qty.toLocaleString()}`;
+  if (bdEl) {
+    let rows = `<div class="price-row"><span>${i18n.t('opt_qty')}: ${state.qty}</span><span>${i18n.fmt(r.basePerUnit * state.qty * r.sizeMultiplier)}</span></div>`;
+    if (r.paperSurcharge) rows += `<div class="price-row"><span>${state.paper}</span><span>+${i18n.fmt(r.paperSurcharge)}</span></div>`;
+    if (r.coatingSurcharge) rows += `<div class="price-row"><span>${state.coating}</span><span>+${i18n.fmt(r.coatingSurcharge)}</span></div>`;
+    if (r.sidesSurcharge) rows += `<div class="price-row"><span>${state.sides}</span><span>+${i18n.fmt(r.sidesSurcharge)}</span></div>`;
+    rows += `<div class="price-row total-row"><span>${i18n.t('total_price')}</span><span>${i18n.fmt(r.total)}</span></div>`;
+    bdEl.innerHTML = rows;
+  }
+  // Update qty table prices
+  document.querySelectorAll('.qty-option').forEach(opt => {
+    const q = Number(opt.dataset.val);
+    const pr = PriceCalc.calculate(state.productId, state.size, q, state.paper, state.coating, state.sides);
+    const lines = opt.querySelectorAll('div');
+    if (lines[1]) lines[1].textContent = i18n.fmt(pr.total);
+    if (lines[2]) lines[2].innerHTML = `${i18n.fmt(pr.perUnit)} / <span data-i18n="per_unit"></span>`;
+  });
+  i18n.render();
+}
+
+function addToCart() {
+  if (!state.product) return;
+  const lang = i18n.getLang();
+  const r = PriceCalc.calculate(state.productId, state.size, state.qty, state.paper, state.coating, state.sides);
+  const specLabel = `${state.size} | ${state.qty} قطعة | ${state.paper} | ${state.coating} | ${state.sides}`;
+  Cart.add({
+    id: state.productId + '_' + Date.now(),
+    productId: state.productId,
+    specKey: `${state.size}_${state.qty}_${state.paper}_${state.coating}_${state.sides}`,
+    name: state.product.name,
+    specLabel,
+    size: state.size, orientation: state.orientation, qty: state.qty,
+    paper: state.paper, coating: state.coating, sides: state.sides,
+    totalPrice: r.total, perUnit: r.perUnit,
+    image: state.product.image,
+  });
+}
+
+function orderWA() {
+  if (!state.product) return;
+  const lang = i18n.getLang();
+  const r = PriceCalc.calculate(state.productId, state.size, state.qty, state.paper, state.coating, state.sides);
+  const name = state.product.name[lang]||state.product.name.ar;
+  const msg = `🖨️ *ITB3 — داواکاری جديد*\n\nالمنتج: ${name}\nالحجم: ${state.size}\nالكمية: ${state.qty}\nالورق: ${state.paper}\nالتشطيب: ${state.coating}\nالطباعة: ${state.sides}\n\n*السعر الإجمالي: ${i18n.fmt(r.total)}*\n\nيرجى التواصل معي لإتمام الطلب.`;
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('tb-phone').textContent = CONFIG.phone;
+  pageRender();
+  document.getElementById('main-search').addEventListener('keydown', e => {
+    if(e.key==='Enter'){const q=e.target.value.trim();if(q)window.location.href='products/index.html?q='+encodeURIComponent(q);}
+  });
+});
+</script>
+</body>
+</html>

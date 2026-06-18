@@ -1,7 +1,7 @@
 const CONFIG = {
-  whatsapp: '9647800000000',
-  phone: '+964 780 000 0000',
-  email: 'info@itb3.com',
+  whatsapp: '9647736797122',
+  phone: '+9647736797122',
+  email: 'husseinalobaidi92@gmail.com',
   instagram: '#', facebook: '#', tiktok: '#',
 };
 

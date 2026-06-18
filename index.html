@@ -251,7 +251,7 @@ async function pageRender() {
   const lang = i18n.getLang();
   document.getElementById('tb-phone').textContent = CONFIG.phone;
   const fp = document.getElementById('f-phone'); if(fp){fp.href='tel:'+CONFIG.phone;fp.textContent=CONFIG.phone;}
-  const fw = document.getElementById('f-wa'); if(fw) fw.href='https://wa.me/9647736797122'+CONFIG.whatsapp;
+  const fw = document.getElementById('f-wa'); if(fw) fw.href='https://wa.me/'+CONFIG.whatsapp;
   const fe = document.getElementById('f-email'); if(fe){fe.href='mailto:'+CONFIG.email;fe.textContent=CONFIG.email;}
 
   const res = await fetch('data/products.json');

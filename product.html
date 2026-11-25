@@ -236,7 +236,13 @@ function selectOpt(key, val) {
 }
 
 function updatePrice() {
-  const r = PriceCalc.calculate(state.productId, state.size, state.qty, state.paper, state.coating, state.sides);
+  let r = PriceCalc.calculate(state.productId, state.size, state.qty, state.paper, state.coating, state.sides);
+  if (r.unavailable) { // this size is not sold in the selected quantity: fall back to its smallest one
+    state.qty = PriceCalc.qtysFor(state.productId, state.size)[0];
+    document.querySelectorAll('.qty-option').forEach(opt => opt.classList.toggle('selected', Number(opt.dataset.val) === state.qty));
+    const vq = document.getElementById('val-qty'); if (vq) vq.textContent = state.qty;
+    r = PriceCalc.calculate(state.productId, state.size, state.qty, state.paper, state.coating, state.sides);
+  }
   const lang = i18n.getLang();
   const totalEl = document.getElementById('price-total');
   const unitEl = document.getElementById('price-unit');
@@ -255,6 +261,7 @@ function updatePrice() {
   document.querySelectorAll('.qty-option').forEach(opt => {
     const q = Number(opt.dataset.val);
     const pr = PriceCalc.calculate(state.productId, state.size, q, state.paper, state.coating, state.sides);
+    opt.style.display = pr.unavailable ? 'none' : '';
     const lines = opt.querySelectorAll('div');
     if (lines[1]) lines[1].textContent = i18n.fmt(pr.total);
     if (lines[2]) lines[2].innerHTML = `${i18n.fmt(pr.perUnit)} / <span data-i18n="per_unit"></span>`;

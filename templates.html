@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>قوالب التصميم — اطبع.com | ITB3</title>
+<meta name="description" content="قوالب طباعة جاهزة بالمقاسات الصحيحة: بطاقات عمل، بروشورات، حقائب كرتون وأكثر. حمّل القالب وصمّم داخله.">
+<link rel="icon" type="image/svg+xml" href="assets/images/logo/favicon.svg">
+<meta name="theme-color" content="#BB1E50">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="font-arabic">
+<nav id="main-nav"></nav>
+<main>
+<div class="page-title-bar"><div class="container"><h1 data-i18n="nav_templates"></h1><p style="color:var(--text-muted);margin-top:6px;max-width:640px" data-i18n="tpl_sub"></p></div></div>
+<section class="sec"><div class="container">
+  <div class="tpl-filters" id="tpl-filters"></div>
+  <div class="tpl-grid" id="tpl-grid"></div>
+</div></section>
+</main>
+<script src="assets/js/i18n.js"></script><script src="assets/js/price-calc.js"></script><script src="assets/js/cart.js"></script><script src="assets/js/auth.js"></script><script src="assets/js/app.js"></script><script src="assets/js/templates.js"></script>
+<script>
+let tplCat = new URLSearchParams(location.search).get('cat') || 'all';
+function pageRender() {
+  const lang = i18n.getLang(), T = ITB3_TEMPLATES;
+  const count = c => T.items.filter(t => c === 'all' || t.cat === c).length;
+  document.getElementById('tpl-filters').innerHTML = [['all', i18n.t('tpl_all')], ...Object.entries(T.cats).map(([k, v]) => [k, v[lang] || v.ar])]
+    .map(([k, label]) => `<button class="tpl-chip${k === tplCat ? ' active' : ''}" data-cat="${k}">${label} <span>${count(k)}</span></button>`).join('');
+  document.getElementById('tpl-grid').innerHTML = T.items.filter(t => tplCat === 'all' || t.cat === tplCat).map(tplCard).join('');
+  document.querySelectorAll('.tpl-chip').forEach(b => b.onclick = () => { tplCat = b.dataset.cat; pageRender(); });
+}
+document.addEventListener('DOMContentLoaded', pageRender);
+</script>
+</body>
+</html>

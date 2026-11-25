@@ -30,6 +30,7 @@
 <script src="assets/js/cart.js"></script>
 <script src="assets/js/auth.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/templates.js"></script>
 <script>
 let state = { productId:'', size:'', orientation:'', qty:0, paper:'', coating:'', sides:'', product:null };
 
@@ -184,6 +185,7 @@ async function pageRender() {
           <button class="btn-wa" onclick="orderWA()"><i class="i i-chat"></i> <span data-i18n="order_wa"></span></button>
         </div>
         <p class="delivery-note"><i class="i i-bolt"></i> تسليم 24-48 ساعة في بغداد | توصيل لجميع المحافظات</p>
+        ${templatesForProduct(p.id)}
       </div>
     </div>
   `;

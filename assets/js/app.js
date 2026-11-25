@@ -2,7 +2,7 @@ const CONFIG = {
   whatsapp: '9647736797122',
   phone: '+9647736797122',
   email: 'husseinalobaidi92@gmail.com',
-  instagram: '#', facebook: '#', tiktok: '#',
+  instagram: 'https://www.instagram.com/itb3.com_iq', facebook: '#', tiktok: '#',
 };
 
 const root = (() => {
@@ -39,6 +39,8 @@ function renderChrome() {
     <a href="tel:${CONFIG.phone}" dir="ltr">${ICO('phone')} ${CONFIG.phone}</a>
     <span class="topbar-sep"></span>
     <a href="${root}track-order.html" data-i18n="nav_track"></a>
+    <span class="topbar-sep"></span>
+    <a href="${root}templates.html" data-i18n="nav_templates"></a>
   </div>
   <div class="topbar-right">${LANGS}<span class="topbar-sep"></span><a href="${root}contact.html" data-i18n="nav_contact"></a></div>
 </div></div></div>
@@ -61,7 +63,7 @@ function renderChrome() {
 <aside id="mob-nav">
   <div class="mob-nav-head">${LOGO('', 'logo-sm')}<button class="menu-toggle" aria-label="close" style="font-size:1.3rem;color:#666">✕</button></div>
   <nav class="mob-nav-links">
-    ${[['index.html', 'home', 'nav_home'], ['products/index.html', 'tag', 'nav_products'], ['about.html', 'info', 'nav_about'], ['contact.html', 'phone', 'nav_contact'], ['track-order.html', 'box', 'nav_track'], ['cart.html', 'cart', 'nav_cart'], ['account/login.html', 'user', 'nav_login']]
+    ${[['index.html', 'home', 'nav_home'], ['products/index.html', 'tag', 'nav_products'], ['templates.html', 'file', 'nav_templates'], ['about.html', 'info', 'nav_about'], ['contact.html', 'phone', 'nav_contact'], ['track-order.html', 'box', 'nav_track'], ['cart.html', 'cart', 'nav_cart'], ['account/login.html', 'user', 'nav_login']]
       .map(([h, i, k]) => `<a href="${root}${h}" class="mob-nav-link"><span class="ico">${ICO(i)}</span><span data-i18n="${k}"></span></a>`).join('')}
   </nav>
   <div style="padding:16px"><div class="lang-pill lang-pill--light" style="justify-content:center">${LANGS.replace(/^<div[^>]*>|<\/div>$/g, '')}</div></div>
@@ -75,7 +77,7 @@ function renderChrome() {
       <div class="footer-social">${social}<a href="https://wa.me/${CONFIG.whatsapp}" target="_blank" rel="noopener" aria-label="WhatsApp">${ICO('chat')}</a></div>
     </div>
     <div class="footer-col"><h4 data-i18n="footer_links"></h4><ul>
-      ${[['index.html', 'nav_home'], ['products/index.html', 'nav_products'], ['about.html', 'nav_about'], ['contact.html', 'nav_contact'], ['track-order.html', 'nav_track'], ['account/login.html', 'nav_login']]
+      ${[['index.html', 'nav_home'], ['products/index.html', 'nav_products'], ['templates.html', 'nav_templates'], ['about.html', 'nav_about'], ['contact.html', 'nav_contact'], ['track-order.html', 'nav_track'], ['account/login.html', 'nav_login']]
         .map(([h, k]) => `<li><a href="${root}${h}" data-i18n="${k}"></a></li>`).join('')}
     </ul></div>
     <div class="footer-col"><h4 data-i18n="footer_cats"></h4><ul id="footer-cats-list"></ul></div>

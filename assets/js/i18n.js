@@ -61,6 +61,7 @@ const i18n = (() => {
       about_s3_t:'ارفع التصميم', about_s3_p:'ارفع ملفك وأرسل الطلب من الموقع أو عبر واتساب',
       about_s4_t:'استلم طلبك', about_s4_p:'نطبع ونوصل الطلب إلى عنوانك',
       sent_success:'تم إرسال رسالتك. سنتواصل معك قريباً.', contact_sub:'نحن هنا للمساعدة', delivery_note:'تسليم 24-48 ساعة في بغداد',
+      nav_templates:'قوالب التصميم', tpl_sub:'حمّل القالب بالمقاس الصحيح، صمّم داخله، ثم ارفع ملفك عند الطلب.', tpl_download:'حمّل القالب', tpl_all:'الكل', tpl_for_product:'قوالب جاهزة لهذا المنتج', tpl_see_all:'كل القوالب', tpl_pdf:'PDF قابل للتعديل',
       new_badge:'جديد', hot_badge:'الأكثر طلباً', sale_badge:'خصم',
     },
     en: {
@@ -124,6 +125,7 @@ const i18n = (() => {
       about_s3_t:'Upload your design', about_s3_p:'Upload your file and order on the site or over WhatsApp',
       about_s4_t:'Receive your order', about_s4_p:'We print and deliver to your address',
       sent_success:'Message sent. We will contact you soon.', contact_sub:'We are here to help', delivery_note:'24-48 hour delivery in Baghdad',
+      nav_templates:'Design templates', tpl_sub:'Download the template in the right size, design inside it, then upload your file when you order.', tpl_download:'Download template', tpl_all:'All', tpl_for_product:'Ready templates for this product', tpl_see_all:'All templates', tpl_pdf:'Editable PDF',
       new_badge:'New', hot_badge:'Best Seller', sale_badge:'Sale',
     },
     ku: {
@@ -188,6 +190,7 @@ const i18n = (() => {
       about_s3_t:'دیزاینەکەت بارکە', about_s3_p:'فایلەکەت بارکە و لە ماڵپەڕ یان واتساپ داوا بنێرە',
       about_s4_t:'داواکارییەکەت وەربگرە', about_s4_p:'چاپی دەکەین و دەیگەیەنینە ناونیشانەکەت',
       sent_success:'نامەکەت نێردرا. بەم زووانە پەیوەندیت پێوە دەکەین.', contact_sub:'ئێمە لێرەین بۆ یارمەتی', delivery_note:'گەیاندن لە ٢٤-٤٨ کاتژمێر لە بەغدا',
+      nav_templates:'قاڵبی دیزاین', tpl_sub:'قاڵبەکە بە قەبارەی دروست دابەزێنە، لەناویدا دیزاین بکە، پاشان لە کاتی داواکردن فایلەکەت بارکە.', tpl_download:'قاڵب دابەزێنە', tpl_all:'هەموو', tpl_for_product:'قاڵبی ئامادە بۆ ئەم بەرهەمە', tpl_see_all:'هەموو قاڵبەکان', tpl_pdf:'PDF ـی دەستکاریکراو',
       new_badge:'نوێ', hot_badge:'زیاتر فرۆشراو', sale_badge:'داشکاندن',
     }
   };

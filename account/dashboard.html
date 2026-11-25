@@ -1,29 +1,23 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>حسابي — ITB3</title><link rel="stylesheet" href="../assets/css/style.css"></head>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>حسابي — ITB3</title><link rel="icon" type="image/svg+xml" href="../assets/images/logo/favicon.svg">
+<meta name="theme-color" content="#BB1E50">
+<link rel="stylesheet" href="../assets/css/style.css"></head>
 <body class="font-arabic">
-<div class="topbar"><div class="container"><div class="topbar-inner"><div class="topbar-right"><div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div></div></div></div></div>
-<nav id="main-nav"><div class="container"><div class="nav-inner">
-  <a href="../index.html" class="nav-logo-text">ITB<span>3</span></a>
-  <div class="nav-actions">
-    <a href="../account/dashboard.html" class="nav-action-btn" id="nav-dashboard"><span class="icon">👤</span><span id="nav-username"></span></a>
-    <button class="nav-action-btn" id="nav-logout" onclick="Auth.logout()"><span class="icon">🚪</span><span data-i18n="nav_logout"></span></button>
-    <a href="../cart.html" class="nav-action-btn" style="position:relative"><span class="icon">🛒</span><span class="cart-count">0</span></a>
-  </div>
-</div></div></nav>
+<nav id="main-nav"></nav>
 <main>
 <div class="page-title-bar"><div class="container"><h1 data-i18n="dashboard_title"></h1></div></div>
 <div class="container"><div class="account-layout">
   <aside class="account-sidebar">
     <div class="account-user">
-      <div class="account-avatar" id="av">👤</div>
+      <div class="account-avatar" id="av"><i class="i i-user"></i></div>
       <div class="account-name" id="acc-name"></div>
       <div class="account-email" id="acc-email"></div>
     </div>
     <nav class="account-nav">
-      <a href="#" class="account-nav-link active" onclick="showTab('orders')">📦 <span data-i18n="my_orders"></span></a>
-      <a href="#" class="account-nav-link" onclick="showTab('profile')">👤 <span data-i18n="my_profile"></span></a>
-      <a href="../products/index.html" class="account-nav-link">🛍️ <span data-i18n="nav_products"></span></a>
-      <a href="../track-order.html" class="account-nav-link">📍 <span data-i18n="nav_track"></span></a>
-      <a href="#" class="account-nav-link" style="color:var(--primary)" onclick="Auth.logout()">🚪 <span data-i18n="nav_logout"></span></a>
+      <a href="#" class="account-nav-link active" onclick="showTab('orders')"><i class="i i-box"></i> <span data-i18n="my_orders"></span></a>
+      <a href="#" class="account-nav-link" onclick="showTab('profile')"><i class="i i-user"></i> <span data-i18n="my_profile"></span></a>
+      <a href="../products/index.html" class="account-nav-link"><i class="i i-bag"></i> <span data-i18n="nav_products"></span></a>
+      <a href="../track-order.html" class="account-nav-link"><i class="i i-pin"></i> <span data-i18n="nav_track"></span></a>
+      <a href="#" class="account-nav-link" style="color:var(--primary)" onclick="Auth.logout()"><i class="i i-logout"></i> <span data-i18n="nav_logout"></span></a>
     </nav>
   </aside>
   <div>
@@ -44,7 +38,6 @@
   </div>
 </div></div>
 </main>
-<footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:20px"><p>© 2025 ITB3. <span data-i18n="footer_rights"></span></p></div></div></footer>
 <script src="../assets/js/i18n.js"></script><script src="../assets/js/price-calc.js"></script><script src="../assets/js/cart.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/app.js"></script>
 <script>
 Auth.requireAuth();
@@ -53,7 +46,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const u=Auth.current();if(!u)return;
   document.getElementById('acc-name').textContent=u.name;
   document.getElementById('acc-email').textContent=u.email;
-  document.getElementById('av').textContent=u.name[0]||'👤';
+  document.getElementById('av').textContent=u.name[0]||'';
   document.getElementById('p-name').value=u.name;
   document.getElementById('p-email').value=u.email;
   document.getElementById('p-phone').value=u.phone||'';

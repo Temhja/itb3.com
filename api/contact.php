@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+if($_SERVER['REQUEST_METHOD']==='GET'&&isset($_GET['list'])){require __DIR__.'/_auth.php';require_admin();$mf=__DIR__.'/../data/messages.json';echo json_encode(['messages'=>file_exists($mf)?(json_decode(file_get_contents($mf),true)?:[]):[]]);exit;}
 if($_SERVER['REQUEST_METHOD']!=='POST'){echo json_encode(['success'=>false]);exit;}
 $name=htmlspecialchars(trim($_POST['name']??''));$phone=htmlspecialchars(trim($_POST['phone']??''));$message=htmlspecialchars(trim($_POST['message']??''));
 if(!$name||!$message){echo json_encode(['success'=>false,'error'=>'missing']);exit;}

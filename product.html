@@ -3,38 +3,12 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ITB3 — المنتج</title>
+<link rel="icon" type="image/svg+xml" href="assets/images/logo/favicon.svg">
+<meta name="theme-color" content="#BB1E50">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="font-arabic">
-<div class="topbar"><div class="container"><div class="topbar-inner">
-  <div class="topbar-left"><span>📞 <span id="tb-phone"></span></span></div>
-  <div class="topbar-right">
-    <div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div>
-    <span class="topbar-sep"></span><a href="contact.html" data-i18n="nav_contact"></a>
-  </div>
-</div></div></div>
-<nav id="main-nav"><div class="container"><div class="nav-inner">
-  <button id="menu-toggle"><span></span><span></span><span></span></button>
-  <a href="index.html" class="nav-logo-text">ITB<span>3</span></a>
-  <div class="nav-search"><input type="text" data-i18n-ph="search_ph" id="main-search"><span class="nav-search-btn">🔍</span></div>
-  <div class="nav-actions">
-    <a href="account/login.html" class="nav-action-btn" id="nav-login"><span class="icon">👤</span><span data-i18n="nav_login"></span></a>
-    <a href="account/dashboard.html" class="nav-action-btn" id="nav-dashboard" style="display:none"><span class="icon">👤</span><span id="nav-username"></span></a>
-    <button class="nav-action-btn" id="nav-logout" style="display:none" onclick="Auth.logout()"><span class="icon">🚪</span><span data-i18n="nav_logout"></span></button>
-    <a href="cart.html" class="nav-action-btn" style="position:relative"><span class="icon">🛒</span><span data-i18n="nav_cart"></span><span class="cart-count">0</span></a>
-  </div>
-</div></div></nav>
-<div id="mob-overlay"></div>
-<aside id="mob-nav">
-  <div class="mob-nav-head"><span class="nav-logo-text" style="font-size:1.2rem">ITB<span>3</span></span><button id="menu-toggle" style="font-size:1.3rem;color:#666">✕</button></div>
-  <nav class="mob-nav-links">
-    <a href="index.html" class="mob-nav-link" data-i18n="nav_home"></a>
-    <a href="products/index.html" class="mob-nav-link" data-i18n="nav_products"></a>
-    <a href="cart.html" class="mob-nav-link" data-i18n="nav_cart"></a>
-    <a href="account/login.html" class="mob-nav-link" data-i18n="nav_login"></a>
-  </nav>
-  <div style="padding:16px"><div class="lang-pill"><button class="lang-btn active" data-lang="ar">عربي</button><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="ku">کو</button></div></div>
-</aside>
+<nav id="main-nav"></nav>
 
 <main>
 <div class="container">
@@ -47,10 +21,9 @@
 
 <footer class="footer" style="margin-top:0">
   <div class="container"><div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:20px">
-    <p>© 2025 ITB3. <span data-i18n="footer_rights"></span></p><p data-i18n="footer_made"></p>
+    <p>© <span class="yr">2026</span> ITB3. <span data-i18n="footer_rights"></span></p><p data-i18n="footer_made"></p>
   </div></div>
 </footer>
-<a href="#" class="wa-float" data-wa>💬</a>
 
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/price-calc.js"></script>
@@ -62,7 +35,6 @@ let state = { productId:'', size:'', orientation:'', qty:0, paper:'', coating:''
 
 async function pageRender() {
   const lang = i18n.getLang();
-  document.getElementById('tb-phone').textContent = CONFIG.phone;
   const id = getParam('id');
   if (!id) return;
   const res = await fetch('data/products.json');
@@ -94,7 +66,7 @@ async function pageRender() {
   state.paper = papers[0]; state.coating = coatings[0]; state.sides = sidesList[0];
   state.orientation = orientations[0];
 
-  const img = p.image || 'assets/images/products/placeholder.svg';
+  const img = webp(p.image) || 'assets/images/products/placeholder.svg';
   const name = p.name[lang]||p.name.ar;
   const desc = p.description[lang]||p.description.ar;
 
@@ -102,7 +74,7 @@ async function pageRender() {
     <!-- Gallery -->
     <div class="product-gallery">
       <div class="product-gallery__main">
-        <img src="${img}" alt="${name}" onerror="this.src='assets/images/products/placeholder.svg'" id="main-img">
+        <img src="${img}" alt="${name}" onerror="this.onerror=null;this.src='assets/images/products/placeholder.svg'" id="main-img">
       </div>
     </div>
 
@@ -142,7 +114,7 @@ async function pageRender() {
       <!-- Quantity -->
       <div class="option-group">
         <div class="option-group-header">
-          <span class="option-group-label"><span class="step-num">⚡</span><span data-i18n="opt_qty"></span></span>
+          <span class="option-group-label"><span class="step-num"><i class="i i-bolt"></i></span><span data-i18n="opt_qty"></span></span>
           <span class="option-group-val" id="val-qty">${state.qty}</span>
         </div>
         <div class="option-group-body">
@@ -163,7 +135,7 @@ async function pageRender() {
       ${papers.length > 1 ? `
       <div class="option-group">
         <div class="option-group-header">
-          <span class="option-group-label"><span class="step-num">📄</span><span data-i18n="opt_paper"></span></span>
+          <span class="option-group-label"><span class="step-num"><i class="i i-file"></i></span><span data-i18n="opt_paper"></span></span>
           <span class="option-group-val" id="val-paper">${state.paper}</span>
         </div>
         <div class="option-group-body">
@@ -177,7 +149,7 @@ async function pageRender() {
       ${coatings.length > 1 ? `
       <div class="option-group">
         <div class="option-group-header">
-          <span class="option-group-label"><span class="step-num">✨</span><span data-i18n="opt_coating"></span></span>
+          <span class="option-group-label"><span class="step-num"><i class="i i-sparkle"></i></span><span data-i18n="opt_coating"></span></span>
           <span class="option-group-val" id="val-coating">${state.coating}</span>
         </div>
         <div class="option-group-body">
@@ -191,7 +163,7 @@ async function pageRender() {
       ${sidesList.length > 1 ? `
       <div class="option-group">
         <div class="option-group-header">
-          <span class="option-group-label"><span class="step-num">🖨️</span><span data-i18n="opt_sides"></span></span>
+          <span class="option-group-label"><span class="step-num"><i class="i i-printer"></i></span><span data-i18n="opt_sides"></span></span>
           <span class="option-group-val" id="val-sides">${state.sides}</span>
         </div>
         <div class="option-group-body">
@@ -208,10 +180,10 @@ async function pageRender() {
         <div class="price-box__unit" id="price-unit"></div>
         <div class="price-box__breakdown" id="price-breakdown"></div>
         <div class="price-box__actions">
-          <button class="btn-add-cart" onclick="addToCart()">🛒 <span data-i18n="add_cart"></span></button>
-          <button class="btn-wa" onclick="orderWA()">💬 <span data-i18n="order_wa"></span></button>
+          <button class="btn-add-cart" onclick="addToCart()"><i class="i i-cart"></i> <span data-i18n="add_cart"></span></button>
+          <button class="btn-wa" onclick="orderWA()"><i class="i i-chat"></i> <span data-i18n="order_wa"></span></button>
         </div>
-        <p class="delivery-note">⚡ تسليم 24-48 ساعة في بغداد | توصيل لجميع المحافظات</p>
+        <p class="delivery-note"><i class="i i-bolt"></i> تسليم 24-48 ساعة في بغداد | توصيل لجميع المحافظات</p>
       </div>
     </div>
   `;
@@ -304,7 +276,7 @@ function addToCart() {
     size: state.size, orientation: state.orientation, qty: state.qty,
     paper: state.paper, coating: state.coating, sides: state.sides,
     totalPrice: r.total, perUnit: r.perUnit,
-    image: state.product.image,
+    image: webp(state.product.image),
   });
 }
 
@@ -313,16 +285,12 @@ function orderWA() {
   const lang = i18n.getLang();
   const r = PriceCalc.calculate(state.productId, state.size, state.qty, state.paper, state.coating, state.sides);
   const name = state.product.name[lang]||state.product.name.ar;
-  const msg = `🖨️ *ITB3 — داواکاری جديد*\n\nالمنتج: ${name}\nالحجم: ${state.size}\nالكمية: ${state.qty}\nالورق: ${state.paper}\nالتشطيب: ${state.coating}\nالطباعة: ${state.sides}\n\n*السعر الإجمالي: ${i18n.fmt(r.total)}*\n\nيرجى التواصل معي لإتمام الطلب.`;
+  const msg = `🖨️ *ITB3 — طلب جديد*\n\nالمنتج: ${name}\nالحجم: ${state.size}\nالكمية: ${state.qty}\nالورق: ${state.paper}\nالتشطيب: ${state.coating}\nالطباعة: ${state.sides}\n\n*السعر الإجمالي: ${i18n.fmt(r.total)}*\n\nيرجى التواصل معي لإتمام الطلب.`;
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('tb-phone').textContent = CONFIG.phone;
   pageRender();
-  document.getElementById('main-search').addEventListener('keydown', e => {
-    if(e.key==='Enter'){const q=e.target.value.trim();if(q)window.location.href='products/index.html?q='+encodeURIComponent(q);}
-  });
 });
 </script>
 </body>

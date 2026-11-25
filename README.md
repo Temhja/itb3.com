@@ -1,4 +1,4 @@
-# ITB3 v2 — E-Commerce Printing Website
+# اطبع.com · ITB3 — E-Commerce Printing Website
 
 ## SETUP (3 steps)
 
@@ -20,8 +20,10 @@ In `api/order.php` and `api/contact.php`:
 
 ### 3. Admin panel
 - URL: `yourdomain.com/admin/`
-- Default password: `itb3admin2025`
-- **Change it immediately from Settings tab**
+- **First visit:** the panel asks you to choose a password (10+ characters). It is stored only as a hash in `data/admin.json` on the server, never in the repo or the browser.
+- Change it later from the Settings tab.
+- **Forgot it?** Delete `data/admin.json` in the Hostinger File Manager and open `/admin/` again.
+- Orders list, status updates, price saving, messages and design-file downloads all require this login.
 
 ---
 
@@ -32,13 +34,15 @@ Example: `standard-business-card.jpg`
 
 ---
 
-## Logo colors
-Update CSS variables in `assets/css/style.css` `:root`:
+## Brand
+Colours and type follow the اطبع.com / ITB3 identity. Tokens live in `assets/css/style.css` `:root`:
 ```css
---primary: #D62828;      /* Main red */
---secondary: #003049;    /* Navy blue */
---accent: #F77F00;       /* Orange */
+--primary: #BB1E50;    /* magenta: CTAs */
+--accent: #1BB3B7;     /* teal: never with white text */
+--teal-text: #0B7A7E;  /* teal as text on white */
+--secondary: #1F1F20;  /* charcoal */
 ```
+Fonts: Noto Kufi Arabic (headings), Vazirmatn (text). Header and footer are rendered once from `assets/js/app.js` (`renderChrome`), so edit them there, not per page.
 
 ---
 

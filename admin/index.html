@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin — ITB3</title><link rel="stylesheet" href="../assets/css/style.css"><style>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin — ITB3</title><link rel="icon" type="image/svg+xml" href="../assets/images/logo/favicon.svg">
+<meta name="theme-color" content="#BB1E50">
+<link rel="stylesheet" href="../assets/css/style.css"><style>
 body{background:var(--bg-gray)}
 .admin-wrap{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
 .adm-side{background:var(--secondary);padding:24px;position:sticky;top:0;height:100vh;overflow-y:auto}
@@ -21,10 +23,11 @@ body{background:var(--bg-gray)}
 
 <div id="login-screen" class="login-screen">
   <div class="login-box">
-    <div style="font-size:2rem;font-weight:900;color:var(--secondary);margin-bottom:4px">ITB<span style="color:var(--primary)">3</span></div>
-    <p style="color:var(--text-muted);margin-bottom:28px">لوحة التحكم</p>
-    <div class="form-group" style="text-align:start"><label class="form-label">كلمة المرور</label><input class="form-input" type="password" id="adm-pass" placeholder="أدخل كلمة المرور"></div>
-    <button class="btn btn-primary btn-full" style="margin-top:8px" onclick="doLogin()">دخول</button>
+    <div style="margin-bottom:12px;display:flex;justify-content:center"><img class="logo-img" src="../assets/images/logo/logo.svg" alt="اطبع.com — ITB3" width="110" height="50"></div>
+    <p id="adm-sub" style="color:var(--text-muted);margin-bottom:28px">لوحة التحكم</p>
+    <div class="form-group" style="text-align:start"><label class="form-label">كلمة المرور</label><input class="form-input" type="password" id="adm-pass" placeholder="أدخل كلمة المرور" autocomplete="current-password"></div>
+    <div class="form-group" id="adm-pass2-wrap" style="text-align:start;display:none"><label class="form-label">تأكيد كلمة المرور</label><input class="form-input" type="password" id="adm-pass2" autocomplete="new-password"></div>
+    <button class="btn btn-primary btn-full" id="adm-btn" style="margin-top:8px" onclick="doLogin()">دخول</button>
     <p id="adm-err" style="display:none;color:var(--primary);font-size:0.82rem;margin-top:10px">كلمة المرور خاطئة</p>
   </div>
 </div>
@@ -32,21 +35,21 @@ body{background:var(--bg-gray)}
 <div id="adm-panel" style="display:none">
 <div class="admin-wrap">
   <aside class="adm-side">
-    <a class="adm-logo" href="#">ITB<span>3</span> <span style="font-size:0.65rem;color:rgba(255,255,255,0.4)">Admin</span></a>
+    <a class="adm-logo" href="#"><img class="logo-img logo-sm" src="../assets/images/logo/logo-white.svg" alt="اطبع.com — ITB3" width="110" height="50"> <span style="font-size:0.65rem;color:rgba(255,255,255,0.4)">Admin</span></a>
     <nav class="adm-nav">
-      <a class="adm-lnk on" href="#" onclick="showTab('dash')">📊 الرئيسية</a>
-      <a class="adm-lnk" href="#" onclick="showTab('orders')">📦 الطلبات</a>
-      <a class="adm-lnk" href="#" onclick="showTab('prices')">💰 الأسعار</a>
-      <a class="adm-lnk" href="#" onclick="showTab('settings')">⚙️ الإعدادات</a>
+      <a class="adm-lnk on" href="#" onclick="showTab('dash')"><i class="i i-chart"></i> الرئيسية</a>
+      <a class="adm-lnk" href="#" onclick="showTab('orders')"><i class="i i-box"></i> الطلبات</a>
+      <a class="adm-lnk" href="#" onclick="showTab('prices')"><i class="i i-coin"></i> الأسعار</a>
+      <a class="adm-lnk" href="#" onclick="showTab('settings')"><i class="i i-gear"></i> الإعدادات</a>
       <div style="height:1px;background:rgba(255,255,255,0.1);margin:12px 0"></div>
-      <a class="adm-lnk" href="../index.html" target="_blank">🌐 الموقع</a>
-      <a class="adm-lnk" href="#" style="color:rgba(255,100,100,0.8)" onclick="doLogout()">🚪 خروج</a>
+      <a class="adm-lnk" href="../index.html" target="_blank"><i class="i i-globe"></i> الموقع</a>
+      <a class="adm-lnk" href="#" style="color:rgba(255,100,100,0.8)" onclick="doLogout()"><i class="i i-logout"></i> خروج</a>
     </nav>
   </aside>
   <main class="adm-main">
 
     <div class="tab on" id="tab-dash">
-      <h1 style="font-size:1.3rem;margin-bottom:4px">مرحباً 👋</h1>
+      <h1 style="font-size:1.3rem;margin-bottom:4px">مرحباً</h1>
       <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:24px">لوحة التحكم — ITB3</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:28px">
         <div class="stat-card"><div class="stat-num" id="s-orders">0</div><div class="stat-lbl">إجمالي الطلبات</div></div>
@@ -64,7 +67,7 @@ body{background:var(--bg-gray)}
     </div>
 
     <div class="tab" id="tab-prices">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><h1 style="font-size:1.2rem">إدارة الأسعار</h1><button class="btn btn-primary btn-sm" onclick="savePrices()">💾 حفظ التغييرات</button></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><h1 style="font-size:1.2rem">إدارة الأسعار</h1><button class="btn btn-primary btn-sm" onclick="savePrices()"><i class="i i-save"></i> حفظ التغييرات</button></div>
       <div id="prices-editor"><p style="color:var(--text-muted)">جاري التحميل...</p></div>
       <div id="save-ok" style="display:none;margin-top:12px;padding:10px;background:rgba(22,163,74,0.1);color:#16a34a;border-radius:8px;font-weight:600">✓ تم حفظ الأسعار بنجاح</div>
     </div>
@@ -72,10 +75,7 @@ body{background:var(--bg-gray)}
     <div class="tab" id="tab-settings">
       <h1 style="font-size:1.2rem;margin-bottom:20px">الإعدادات</h1>
       <div style="background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:28px;max-width:480px">
-        <div class="form-group"><label class="form-label">رقم الواتساب</label><input class="form-input" id="s-wa" placeholder="9647800000000"></div>
-        <div class="form-group"><label class="form-label">رقم الهاتف</label><input class="form-input" id="s-ph" placeholder="+964 780 000 0000"></div>
-        <div class="form-group"><label class="form-label">البريد الإلكتروني</label><input class="form-input" type="email" id="s-em" placeholder="info@itb3.com"></div>
-        <div class="form-group"><label class="form-label">كلمة مرور جديدة للوحة (اتركها فارغة للإبقاء)</label><input class="form-input" type="password" id="s-pass"></div>
+        <div class="form-group"><label class="form-label">كلمة مرور جديدة للوحة (10 أحرف على الأقل)</label><input class="form-input" type="password" id="s-pass"></div>
         <button class="btn btn-primary" style="margin-top:8px" onclick="saveSettings()">حفظ</button>
         <div id="settings-ok" style="display:none;margin-top:8px;color:#16a34a;font-weight:600">✓ تم الحفظ</div>
       </div>
@@ -87,11 +87,25 @@ body{background:var(--bg-gray)}
 
 <script src="../assets/js/i18n.js"></script><script src="../assets/js/price-calc.js"></script><script src="../assets/js/cart.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/app.js"></script>
 <script>
-const ADM_KEY='itb3_adm_pass',ADM_SESSION='itb3_adm_sess',DEF_PASS='itb3admin2025';
-function doLogin(){const p=document.getElementById('adm-pass').value;const sp=localStorage.getItem(ADM_KEY)||DEF_PASS;if(p===sp){sessionStorage.setItem(ADM_SESSION,'1');document.getElementById('login-screen').style.display='none';document.getElementById('adm-panel').style.display='block';initAdmin();}else{document.getElementById('adm-err').style.display='block';}}
-function doLogout(){sessionStorage.removeItem(ADM_SESSION);location.reload();}
-document.getElementById('adm-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-if(sessionStorage.getItem(ADM_SESSION)){document.getElementById('login-screen').style.display='none';document.getElementById('adm-panel').style.display='block';}
+const api=async(action,password)=>{const fd=new FormData();fd.append('action',action);if(password!==undefined)fd.append('password',password);const r=await fetch('../api/admin.php',{method:'POST',body:fd});return r.json();};
+const ERR={invalid:'كلمة المرور خاطئة',too_short:'كلمة المرور قصيرة: 10 أحرف على الأقل',locked:'محاولات كثيرة. حاول بعد 15 دقيقة',mismatch:'كلمتا المرور غير متطابقتين',write_failed:'تعذر الحفظ على الخادم'};
+let setupMode=false;
+function showPanel(){document.getElementById('login-screen').style.display='none';document.getElementById('adm-panel').style.display='block';initAdmin();}
+function showErr(k){const e=document.getElementById('adm-err');e.textContent=ERR[k]||'حدث خطأ';e.style.display='block';}
+async function boot(){
+  const s=await (await fetch('../api/admin.php')).json();
+  if(s.authed)return showPanel();
+  setupMode=!s.setup;
+  if(setupMode){document.getElementById('adm-sub').textContent='الإعداد الأول: اختر كلمة مرور للوحة التحكم';document.getElementById('adm-pass2-wrap').style.display='block';document.getElementById('adm-btn').textContent='حفظ ودخول';document.getElementById('adm-pass').autocomplete='new-password';}
+}
+async function doLogin(){
+  const p=document.getElementById('adm-pass').value;
+  if(setupMode&&p!==document.getElementById('adm-pass2').value)return showErr('mismatch');
+  try{const d=await api(setupMode?'setup':'login',p);if(d.success)showPanel();else showErr(d.error);}catch{showErr();}
+}
+async function doLogout(){await api('logout');location.reload();}
+document.querySelectorAll('#adm-pass,#adm-pass2').forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();}));
+boot();
 
 function showTab(t){document.querySelectorAll('.tab').forEach(el=>el.classList.remove('on'));document.querySelectorAll('.adm-lnk').forEach(el=>el.classList.remove('on'));document.getElementById('tab-'+t).classList.add('on');event?.target?.classList.add('on');if(t==='orders'||t==='dash')loadOrders();if(t==='prices')loadPrices();}
 
@@ -116,7 +130,7 @@ async function loadPrices(){
   let html='';
   prodData.categories.forEach(cat=>{
     const ps=prodData.products.filter(p=>p.categoryId===cat.id);if(!ps.length)return;
-    html+=`<div style="margin-bottom:28px"><h3 style="font-size:0.95rem;color:var(--primary);margin-bottom:12px">${cat.icon} ${cat.name.ar}</h3><div class="table-wrap"><table class="data-table"><thead><tr><th>المنتج</th><th>المواصفة</th><th>السعر الحالي (د.ع)</th><th>تعديل السعر</th></tr></thead><tbody>`;
+    html+=`<div style="margin-bottom:28px"><h3 style="font-size:0.95rem;color:var(--primary);margin-bottom:12px">${ICO(cat.icon)} ${cat.name.ar}</h3><div class="table-wrap"><table class="data-table"><thead><tr><th>المنتج</th><th>المواصفة</th><th>السعر الحالي (د.ع)</th><th>تعديل السعر</th></tr></thead><tbody>`;
     ps.forEach(p=>{const tbl=PriceCalc.getTable(p.id);if(!tbl)return;Object.entries(tbl.base).forEach(([q,price])=>{html+=`<tr><td>${p.name.ar}</td><td style="color:var(--text-muted)">${q} قطعة</td><td style="color:var(--primary);font-weight:700">${Number(price).toLocaleString()}</td><td><input type="number" class="form-input" style="max-width:140px;padding:7px 10px" data-pid="${p.id}" data-qty="${q}" value="${price}" min="0" step="500"></td></tr>`;});});
     html+=`</tbody></table></div></div>`;
   });
@@ -130,8 +144,7 @@ async function savePrices(){
   try{const fd=new FormData();fd.append('action','save_products');fd.append('data',JSON.stringify(prodData));const r=await fetch('../api/order.php',{method:'POST',body:fd});const d=await r.json();const ok=document.getElementById('save-ok');ok.style.display='block';ok.textContent=d.success?'✓ تم حفظ الأسعار':'حدث خطأ';setTimeout(()=>ok.style.display='none',3000);}catch{alert('خطأ في الحفظ');}
 }
 
-function saveSettings(){const p=document.getElementById('s-pass').value;if(p)localStorage.setItem(ADM_KEY,p);document.getElementById('settings-ok').style.display='block';setTimeout(()=>document.getElementById('settings-ok').style.display='none',2000);}
+async function saveSettings(){const p=document.getElementById('s-pass').value;const ok=document.getElementById('settings-ok');if(!p)return;const d=await api('change_password',p);ok.style.display='block';ok.style.color=d.success?'#16a34a':'var(--primary)';ok.textContent=d.success?'✓ تم تغيير كلمة المرور':(ERR[d.error]||'حدث خطأ');if(d.success)document.getElementById('s-pass').value='';setTimeout(()=>ok.style.display='none',3000);}
 
-async function initAdmin(){await loadOrders();document.getElementById('s-msgs').textContent=0;}
-if(sessionStorage.getItem(ADM_SESSION))initAdmin();
+async function initAdmin(){await loadOrders();try{const m=await (await fetch('../api/contact.php?list=1')).json();document.getElementById('s-msgs').textContent=(m.messages||[]).length;}catch{}}
 </script></body></html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin — ITB3</title><link rel="icon" type="image/svg+xml" href="../assets/images/logo/favicon.svg">
 <meta name="theme-color" content="#BB1E50">
-<link rel="stylesheet" href="../assets/css/style.css"><style>
+<link rel="stylesheet" href="../assets/css/style.css?v=33d8c931"><style>
 body{background:var(--bg-gray)}
 .admin-wrap{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
 .adm-side{background:var(--secondary);padding:24px;position:sticky;top:0;height:100vh;overflow-y:auto}
@@ -85,7 +85,7 @@ body{background:var(--bg-gray)}
 </div>
 </div>
 
-<script src="../assets/js/i18n.js"></script><script src="../assets/js/price-calc.js"></script><script src="../assets/js/cart.js"></script><script src="../assets/js/auth.js"></script><script src="../assets/js/app.js"></script>
+<script src="../assets/js/i18n.js?v=b096e716"></script><script src="../assets/js/price-calc.js?v=cfbca00f"></script><script src="../assets/js/cart.js?v=b23bc82e"></script><script src="../assets/js/auth.js?v=bb1042af"></script><script src="../assets/js/app.js?v=ef0a6fc9"></script>
 <script>
 const api=async(action,password)=>{const fd=new FormData();fd.append('action',action);if(password!==undefined)fd.append('password',password);const r=await fetch('../api/admin.php',{method:'POST',body:fd});return r.json();};
 const ERR={invalid:'كلمة المرور خاطئة',too_short:'كلمة المرور قصيرة: 10 أحرف على الأقل',locked:'محاولات كثيرة. حاول بعد 15 دقيقة',mismatch:'كلمتا المرور غير متطابقتين',write_failed:'تعذر الحفظ على الخادم'};

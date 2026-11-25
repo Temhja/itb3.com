@@ -4,6 +4,7 @@ RewriteEngine On
 # Only the public product catalog is readable.
 RewriteRule ^data/(?!products\.json$) - [F,L]
 RewriteRule ^api/_ - [F,L]
+RewriteRule ^tools/ - [F,L]
 RewriteRule ^(README\.md|\.gitignore)$ - [F,L]
 <IfModule mod_expires.c>
 ExpiresActive On
